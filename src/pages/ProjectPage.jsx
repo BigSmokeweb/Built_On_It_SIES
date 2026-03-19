@@ -1,0 +1,278 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+const tabs = ['README','Features','Benchmarks','Dependencies','Releases'];
+
+const features = [
+  'Zero-cost abstractions','Multi-threaded scheduling','ONNX & TensorFlow support','WebAssembly compatible',
+];
+
+const deps = ['tokio v1.2','serde v1.0','ndarray v0.15','rayon v1.5','anyhow v1.0'];
+
+export default function ProjectDetail() {
+  const [activeTab, setActiveTab] = useState('README');
+  const [starred, setStarred] = useState(false);
+  const [starCount, setStarCount] = useState(12400);
+  const [copied, setCopied] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+  const [supported, setSupported] = useState(false);
+
+  const handleStar = () => {
+    setStarred(s => !s);
+    setStarCount(n => starred ? n - 1 : n + 1);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard?.writeText('cargo add skynet-ai').catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2000);
+  };
+
+  const handleSupport = () => {
+    setSupported(true);
+  };
+
+  const formatStars = (n) => n >= 1000 ? `${(n/1000).toFixed(1)}k` : n;
+
+  return (
+    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+      {/* TOPNAV */}
+      <nav style={{ height:57, background:'rgba(13,17,23,.95)', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', padding:'0 20px', gap:12, position:'sticky', top:0, zIndex:100, backdropFilter:'blur(12px)', animation:'slideDown .4s ease' }}>
+        <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, fontWeight:700, fontSize:15, color:'var(--text)', textDecoration:'none' }}>
+          <div style={{ width:28, height:28, background:'var(--blue)', borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13 }}>⊞</div>
+          DevVault
+        </Link>
+        <div style={{ flex:1, maxWidth:380, position:'relative' }}>
+          <span style={{ position:'absolute', left:10, top:'50%', transform:'translateY(-50%)', color:'var(--text3)' }}>🔍</span>
+          <input className="input" placeholder="Search projects, authors, or tags..." style={{ paddingLeft:32, height:34 }} />
+        </div>
+        <div style={{ marginLeft:'auto', display:'flex', gap:8 }}>
+          <button className="btn-icon">🔔</button>
+          <div className="avatar-placeholder" style={{ background:'linear-gradient(135deg,#f97316,#d29922)' }}>A</div>
+        </div>
+      </nav>
+
+      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px 24px', display:'grid', gridTemplateColumns:'1fr 300px', gap:24, animation:'fadeIn .4s ease' }}>
+        {/* LEFT COLUMN */}
+        <div>
+          {/* PROJECT HEADER */}
+          <div className="card" style={{ padding:24, marginBottom:20 }}>
+            <div style={{ display:'flex', alignItems:'flex-start', gap:20 }}>
+              <div style={{ width:70, height:70, background:'rgba(47,129,247,.15)', borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', fontSize:28, border:'1px solid rgba(47,129,247,.25)', flexShrink:0, animation:'float 4s ease-in-out infinite' }}>⚙</div>
+              <div style={{ flex:1 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:8, flexWrap:'wrap' }}>
+                  <h1 style={{ fontSize:'1.5rem', fontWeight:800, letterSpacing:-0.5 }}>SkyNet AI Engine</h1>
+                  <span className="badge badge-blue" style={{ fontSize:10 }}>v2.4.5</span>
+                  <span className="badge badge-green" style={{ fontSize:10 }}>MIT License</span>
+                </div>
+                <p style={{ color:'var(--text2)', fontSize:13.5, lineHeight:1.6, marginBottom:16, maxWidth:500 }}>
+                  A high-performance neural network library written in Rust for real-time edge computing. Optimized for low-latency inference on ARM and RISC-V architectures.
+                </p>
+                <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
+                  <button
+                    className={`btn ${downloaded ? 'btn-secondary' : 'btn-primary'}`}
+                    onClick={handleDownload}
+                    style={{ transition:'all .2s' }}>
+                    <span>{downloaded ? '✓' : '⬇'}</span>
+                    {downloaded ? 'Downloaded!' : 'Download ZIP'}
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={handleCopy}
+                    style={{ transition:'all .2s', background: copied ? 'rgba(63,185,80,.12)' : undefined, borderColor: copied ? 'var(--green)' : undefined, color: copied ? 'var(--green)' : undefined }}>
+                    {copied ? '✓ Copied!' : '📋 Clone'}
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={handleStar}
+                    style={{ transition:'all .2s', background: starred ? 'rgba(210,153,34,.12)' : undefined, borderColor: starred ? 'var(--orange)' : undefined, color: starred ? 'var(--orange)' : undefined }}>
+                    {starred ? '★' : '⭐'} {formatStars(starCount)}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* TABS */}
+          <div style={{ display:'flex', borderBottom:'1px solid var(--border)', marginBottom:0 }}>
+            {tabs.map(tab => (
+              <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding:'10px 18px', border:'none', cursor:'pointer', background:'transparent', color: activeTab===tab ? 'var(--text)' : 'var(--text2)', fontSize:13, fontWeight: activeTab===tab ? 600 : 400, borderBottom:`2px solid ${activeTab===tab ? 'var(--blue)' : 'transparent'}`, transition:'all .18s', marginBottom:-1 }}>
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* TAB CONTENT */}
+          <div className="card" style={{ padding:28, borderRadius:'0 0 var(--radius-lg) var(--radius-lg)', borderTop:'none', animation:'fadeIn .3s ease' }}>
+            {activeTab === 'README' && (
+              <>
+                <h2 style={{ fontSize:'1.2rem', fontWeight:700, marginBottom:14 }}>Introduction</h2>
+                <p style={{ color:'var(--text2)', fontSize:13.5, lineHeight:1.75, marginBottom:24 }}>
+                  SkyNet is designed for developers who need maximum performance with minimal footprint. Whether you're building for autonomous drones, industrial IoT, or smart home devices, SkyNet provides the tools to deploy complex AI models at the edge.
+                </p>
+                <h3 style={{ fontSize:'1rem', fontWeight:700, marginBottom:14 }}>Screenshots</h3>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:24 }}>
+                  {[0,1].map(i => (
+                    <div key={i} style={{ height:130, background:'var(--bg3)', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'var(--text3)', fontSize:28, border:'1px solid var(--border)' }}>🖼</div>
+                  ))}
+                </div>
+                <h3 style={{ fontSize:'1rem', fontWeight:700, marginBottom:14 }}>Key Features</h3>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:24 }}>
+                  {features.map(f => (
+                    <div key={f} style={{ display:'flex', alignItems:'center', gap:8, color:'var(--text2)', fontSize:13 }}>
+                      <span style={{ color:'var(--blue)', fontSize:15 }}>✅</span>
+                      {f}
+                    </div>
+                  ))}
+                </div>
+                <h3 style={{ fontSize:'1rem', fontWeight:700, marginBottom:14 }}>Quick Start</h3>
+                <div style={{ background:'var(--bg3)', borderRadius:8, padding:'16px 20px', border:'1px solid var(--border)', fontFamily:'JetBrains Mono, monospace', fontSize:12, lineHeight:1.8 }}>
+                  <div style={{ color:'var(--text3)' }}># Add to your Cargo.toml</div>
+                  <div><span style={{ color:'#79b8ff' }}>skynet-ai</span> = <span style={{ color:'#a5d6ff' }}>"2.4.5"</span></div>
+                  <div style={{ marginTop:8, color:'var(--text3)' }}># Basic usage</div>
+                  <div><span style={{ color:'#f97583' }}>use</span> <span style={{ color:'var(--text2)' }}>skynet::prelude::*;</span></div>
+                  <div><span style={{ color:'#f97583' }}>let</span> engine = Engine::<span style={{ color:'#b392f0' }}>new</span>(Config::<span style={{ color:'#b392f0' }}>default</span>());</div>
+                </div>
+              </>
+            )}
+            {activeTab === 'Features' && (
+              <div>
+                <h2 style={{ fontSize:'1.2rem', fontWeight:700, marginBottom:16 }}>All Features</h2>
+                <div style={{ display:'grid', gap:12 }}>
+                  {['Zero-cost abstractions — no runtime overhead', 'Multi-threaded scheduling — automatic parallelism', 'ONNX & TensorFlow support — import any model', 'WebAssembly compatible — runs in the browser', 'ARM & RISC-V optimized — edge-ready binaries', 'Async-first API — built on tokio runtime'].map(f => (
+                    <div key={f} style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 16px', background:'var(--bg3)', borderRadius:8, border:'1px solid var(--border)', fontSize:13, color:'var(--text2)' }}>
+                      <span style={{ color:'var(--green)', fontSize:16 }}>✓</span> {f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {activeTab === 'Benchmarks' && (
+              <div>
+                <h2 style={{ fontSize:'1.2rem', fontWeight:700, marginBottom:16 }}>Performance Benchmarks</h2>
+                {[{ label:'Inference Speed', value:85, unit:'2.4ms avg', color:'var(--blue)' }, { label:'Memory Usage', value:60, unit:'< 8MB footprint', color:'var(--green)' }, { label:'CPU Utilization', value:40, unit:'multi-core', color:'var(--orange)' }].map(b => (
+                  <div key={b.label} style={{ marginBottom:20 }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6, fontSize:13 }}>
+                      <span style={{ fontWeight:600 }}>{b.label}</span>
+                      <span style={{ color:'var(--text2)' }}>{b.unit}</span>
+                    </div>
+                    <div style={{ height:8, background:'var(--bg3)', borderRadius:4, overflow:'hidden' }}>
+                      <div style={{ height:'100%', width:`${b.value}%`, background:b.color, borderRadius:4, transition:'width 1s ease', boxShadow:`0 0 8px ${b.color}66` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {activeTab === 'Dependencies' && (
+              <div>
+                <h2 style={{ fontSize:'1.2rem', fontWeight:700, marginBottom:16 }}>Dependencies</h2>
+                <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                  {deps.map(d => <span key={d} className="tag tag-gray" style={{ fontSize:12, padding:'5px 12px' }}>{d}</span>)}
+                </div>
+              </div>
+            )}
+            {activeTab === 'Releases' && (
+              <div>
+                <h2 style={{ fontSize:'1.2rem', fontWeight:700, marginBottom:16 }}>Release History</h2>
+                {[{ v:'v2.4.5', date:'Mar 15, 2024', notes:'Bug fixes and performance improvements' }, { v:'v2.4.0', date:'Feb 20, 2024', notes:'Added ONNX model support' }, { v:'v2.3.0', date:'Jan 10, 2024', notes:'WebAssembly target added' }].map(r => (
+                  <div key={r.v} style={{ padding:'14px 16px', background:'var(--bg3)', borderRadius:8, border:'1px solid var(--border)', marginBottom:10 }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
+                      <span style={{ fontWeight:700, color:'var(--blue)' }}>{r.v}</span>
+                      <span style={{ color:'var(--text3)', fontSize:12 }}>{r.date}</span>
+                    </div>
+                    <p style={{ color:'var(--text2)', fontSize:13, margin:0 }}>{r.notes}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT SIDEBAR */}
+        <div style={{ display:'flex', flexDirection:'column', gap:16, animation:'fadeInRight .4s ease .1s both' }}>
+          {/* STATS */}
+          <div className="card" style={{ padding:20 }}>
+            <h3 style={{ fontWeight:700, marginBottom:14, fontSize:14 }}>Project Stats</h3>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+              {[
+                { label:'STARS', value: formatStars(starCount), trend:'+12%', color:'#e3b341' },
+                { label:'FORKS', value:'1,185', trend:'+5%', color:'#56d364' },
+                { label:'ISSUES', value:'24', sub:'12 closed this week', color:'#f85149' },
+                { label:'WATCHERS', value:'450', sub:'Stable community', color:'#79b8ff' },
+              ].map(s => (
+                <div key={s.label} style={{ background:'var(--bg3)', borderRadius:8, padding:'12px 14px', border:'1px solid var(--border)' }}>
+                  <div style={{ fontSize:10, color:'var(--text3)', fontWeight:600, letterSpacing:1, marginBottom:4 }}>{s.label}</div>
+                  <div style={{ fontSize:'1.5rem', fontWeight:700, lineHeight:1 }}>{s.value}</div>
+                  {s.trend && <div style={{ fontSize:11, color:'#56d364', marginTop:3 }}>↑ {s.trend}</div>}
+                  {s.sub && <div style={{ fontSize:10, color:'var(--text3)', marginTop:3 }}>{s.sub}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* OWNER */}
+          <div className="card" style={{ padding:20 }}>
+            <h3 style={{ fontWeight:700, marginBottom:14, fontSize:14 }}>About Owner</h3>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14 }}>
+              <div style={{ width:40, height:40, borderRadius:'50%', background:'linear-gradient(135deg,#f97316,#d29922)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>AR</div>
+              <div>
+                <div style={{ fontWeight:700, fontSize:14 }}>Alex Rivera</div>
+                <div style={{ color:'var(--text2)', fontSize:12 }}>Core Developer • San Francisco, CA</div>
+              </div>
+            </div>
+            {[{ icon:'🌐', text:'arivera.dev' }, { icon:'📧', text:'alex@skynet-engine.org' }].map(l => (
+              <div key={l.text} style={{ display:'flex', alignItems:'center', gap:8, color:'var(--text2)', fontSize:12, marginBottom:6 }}>
+                <span>{l.icon}</span><span style={{ color:'var(--blue)', cursor:'pointer' }}>{l.text}</span>
+              </div>
+            ))}
+            <button
+              className={`btn ${supported ? 'btn-secondary' : 'btn-primary'}`}
+              style={{ width:'100%', justifyContent:'center', marginTop:12, transition:'all .2s' }}
+              onClick={handleSupport}>
+              {supported ? '💚 Thank you!' : 'Support Project'}
+            </button>
+          </div>
+
+          {/* QUICK LINKS */}
+          <div className="card" style={{ padding:20 }}>
+            <h3 style={{ fontWeight:700, marginBottom:14, fontSize:14 }}>Quick Links</h3>
+            {[{ icon:'‹›', label:'Source Code', href:'#' }, { icon:'📚', label:'Tutorials', href:'/tutorials' }, { icon:'💬', label:'Discord Community', href:'#' }].map(l => (
+              <a key={l.label} href={l.href} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 12px', background:'var(--bg3)', borderRadius:7, marginBottom:8, border:'1px solid var(--border)', cursor:'pointer', transition:'all .15s', textDecoration:'none', color:'inherit' }}
+                onMouseEnter={e => e.currentTarget.style.borderColor='var(--border2)'}
+                onMouseLeave={e => e.currentTarget.style.borderColor='var(--border)'}>
+                <div style={{ display:'flex', alignItems:'center', gap:8, fontSize:13 }}>
+                  <span>{l.icon}</span>{l.label}
+                </div>
+                <span style={{ color:'var(--text3)', fontSize:11 }}>↗</span>
+              </a>
+            ))}
+          </div>
+
+          {/* TOP DEPS */}
+          <div className="card" style={{ padding:20 }}>
+            <h3 style={{ fontWeight:700, marginBottom:14, fontSize:14 }}>Top Dependencies</h3>
+            <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+              {deps.map(d => <span key={d} className="tag tag-gray" style={{ fontSize:11 }}>{d}</span>)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <footer style={{ borderTop:'1px solid var(--border)', padding:'20px 24px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:8, color:'var(--text2)', fontSize:13 }}>
+          <div style={{ width:18, height:18, background:'var(--blue)', borderRadius:4, display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>⊞</div>
+          DevVault © 2024 Built for developers.
+        </div>
+        <div style={{ display:'flex', gap:20 }}>
+          {['Privacy','Terms','Contact','Twitter'].map(l => <span key={l} style={{ color:'var(--text2)', fontSize:13, cursor:'pointer' }}>{l}</span>)}
+        </div>
+      </footer>
+    </div>
+  );
+}
