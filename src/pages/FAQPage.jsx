@@ -34,7 +34,7 @@ const faqs = [
     items: [
       { q: 'How do I change my username?', a: 'Go to your Profile → Settings → Edit Profile. You can update your username, bio, location, and social links. Note: username changes affect your profile URL.' },
       { q: 'How do I cancel my Pro subscription?', a: 'Go to Profile → Settings → Billing. Click "Cancel Subscription". You\'ll retain Pro features until the end of your billing period.' },
-      { q: 'Do you offer student or open-source discounts?', a: 'Yes! Students with a valid .edu email get Pro for free. Verified open-source maintainers with 500+ GitHub stars get 50% off. Email us at billing@devvault.io.' },
+      { q: 'Do you offer student or open-source discounts?', a: 'Yes! Students with a valid .edu email get Pro for free. Verified open-source maintainers with 500+ GitHub stars get 50% off. Email us at billing@builtonit.io.' },
     ],
   },
   {
@@ -88,7 +88,7 @@ export default function FAQPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
 
       {/* NAV */}
-      <nav style={{ height: 57, background: 'rgba(13,17,23,.97)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 32px', gap: 16, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
+      <nav style={{ height: 57, background: 'rgba(13,17,23,.97)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 clamp(14px,3vw,32px)', gap: 16, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)', textDecoration: 'none' }}>
           <div style={{ width: 28, height: 28, background: 'var(--blue)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><VaultIcon /></div>
           Built On It
@@ -99,7 +99,7 @@ export default function FAQPage() {
         </div>
       </nav>
 
-      <main style={{ maxWidth: 860, margin: '0 auto', padding: '56px 32px 80px' }}>
+      <main style={{ maxWidth: 860, margin: '0 auto', padding: 'clamp(32px,5vw,56px) clamp(16px,4vw,32px) 80px' }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 48, animation: 'fadeIn .5s ease' }}>
@@ -151,7 +151,7 @@ export default function FAQPage() {
       </main>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '24px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <footer style={{ borderTop: '1px solid var(--border)', padding: 'clamp(14px,3vw,24px) clamp(14px,3vw,32px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text2)', fontSize: 13 }}>
           <div style={{ width: 18, height: 18, background: 'var(--blue)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><VaultIcon /></div>
           Built On It © 2024

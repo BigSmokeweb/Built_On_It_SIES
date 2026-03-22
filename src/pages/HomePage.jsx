@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-/* ─── BRAND ─────────────────────────────────────────────── */
+/* ─── BRAND ─────────────────────────────────────────────────── */
 const BRAND = 'Built On It';
 
-/* ─── SIDEBAR NAV ─────────────────────────────────────────── */
+/* ─── SIDEBAR NAV ──────────────────────────────────────────── */
 const sidebarItems = [
   { icon: '⊞', label: 'Dashboard', active: true, to: '/' },
   { icon: '⊟', label: 'Categories', to: '/categories' },
@@ -14,7 +14,7 @@ const sidebarItems = [
   { icon: '🆘', label: 'AskDev', to: '/community' },
 ];
 
-/* ─── FEATURES ───────────────────────────────────────────── */
+/* ─── FEATURES ───────────────────────────────────────────────── */
 const features = [
   { icon: '⊟', label: 'Categories', desc: 'Browse projects by tech stack', to: '/categories', color: '#2f81f7', bg: 'rgba(47,129,247,.1)' },
   { icon: '📁', label: 'Explore Projects', desc: 'Discover open-source tools', to: '/explore', color: '#3fb950', bg: 'rgba(63,185,80,.1)' },
@@ -24,7 +24,7 @@ const features = [
   { icon: '👤', label: 'Your Profile', desc: 'Showcase your work & projects', to: '/profile', color: '#00bcd4', bg: 'rgba(0,188,212,.1)' },
 ];
 
-/* ─── STATS ───────────────────────────────────────────────── */
+/* ─── STATS ──────────────────────────────────────────────────── */
 const stats = [
   { n: '12,400+', l: 'Developers' },
   { n: '3,800+', l: 'Projects' },
@@ -32,14 +32,14 @@ const stats = [
   { n: '4.9★', l: 'Community Rating' },
 ];
 
-/* ─── FEATURED PROJECTS ──────────────────────────────────── */
+/* ─── FEATURED PROJECTS ─────────────────────────────────────── */
 const featured = [
   { title: 'AuthEngine Pro', badge: 'ENTERPRISE', desc: 'High-performance authentication middleware with JWT, OAuth2 & session management.', stars: '1.2k', lang: 'TypeScript', time: '2h ago', color: '#2f81f7', emoji: '🔐' },
   { title: 'DataViz SDK', badge: 'ANALYTICS', desc: 'Real-time charting library designed for massive datasets with WebGL rendering.', stars: '850', lang: 'React', time: '5h ago', color: '#3fb950', emoji: '📊' },
   { title: 'CloudStream API', badge: 'NETWORKING', desc: 'Ultra-low latency data streaming engine with built-in auto-scaling.', stars: '2.1k', lang: 'Go', time: '12h ago', color: '#bc8cff', emoji: '☁️' },
 ];
 
-/* ─── NEW ARRIVALS ───────────────────────────────────────── */
+/* ─── NEW ARRIVALS ──────────────────────────────────────────── */
 const arrivals = [
   { icon: '🛡', title: 'Shield.js', desc: 'Runtime security layer', color: '#2f81f7' },
   { icon: '📦', title: 'SwiftStore', desc: 'KV storage engine', color: '#3fb950' },
@@ -47,14 +47,14 @@ const arrivals = [
   { icon: '📊', title: 'Metrics.io', desc: 'Distributed tracing', color: '#e3b341' },
 ];
 
-/* ─── FOOTER COLS ────────────────────────────────────────── */
+/* ─── FOOTER COLS ───────────────────────────────────────────── */
 const footerCols = [
   { title: 'PLATFORM', links: [{ l: 'Explore Projects', to: '/explore' }, { l: 'Categories', to: '/categories' }, { l: 'Tutorials', to: '/tutorials' }, { l: 'Upload Project', to: '/submit' }] },
   { title: 'RESOURCES', links: [{ l: 'Tutorials', to: '/tutorials' }, { l: 'FAQ', to: '/faq' }, { l: 'Community', to: '/community' }, { l: 'Support', to: '/contact' }] },
   { title: 'COMPANY', links: [{ l: 'About Us', to: '/about' }, { l: 'Contact', to: '/contact' }, { l: 'Privacy Policy', to: '/privacy' }, { l: 'Terms of Service', to: '/terms' }] },
 ];
 
-/* ─── CODE ANIMATION ─────────────────────────────────────── */
+/* ─── CODE ANIMATION ─────────────────────────────────────────── */
 const codeLines = [
   { text: 'builtonit --init', className: 'cmd' },
   { text: '' },
@@ -68,43 +68,83 @@ const codeLines = [
 
 export default function Dashboard() {
   const [visible, setVisible] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(true);
   const [typedLines, setTypedLines] = useState(0);
 
   useEffect(() => {
     setVisible(true);
+    // On desktop, default sidebar open
+    if (window.innerWidth > 768) setSidebarOpen(true);
     const t = setInterval(() => {
       setTypedLines(p => { if (p >= codeLines.length) { clearInterval(t); return p; } return p + 1; });
     }, 200);
     return () => clearInterval(t);
   }, []);
 
+  // Close mobile sidebar on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setMobileSidebarOpen(false);
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = () => window.innerWidth <= 768;
+
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
 
-      {/* ── TOP NAV ─────────────────────────────────────── */}
+      {/* ── MOBILE SIDEBAR OVERLAY ───────────────────────────── */}
+      {mobileSidebarOpen && (
+        <div
+          onClick={() => setMobileSidebarOpen(false)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.55)', zIndex: 198, backdropFilter: 'blur(2px)' }}
+        />
+      )}
+
+      {/* ── TOP NAV ─────────────────────────────────────────── */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
         <nav style={{
           height: navOpen ? 57 : 0, overflow: 'hidden',
           background: 'rgba(13,17,23,.97)', borderBottom: navOpen ? '1px solid var(--border)' : 'none',
-          display: 'flex', alignItems: 'center', padding: navOpen ? '0 20px' : '0', gap: 12,
+          display: 'flex', alignItems: 'center', padding: navOpen ? '0 clamp(12px,3vw,20px)' : '0', gap: 10,
           backdropFilter: 'blur(12px)', transition: 'height .35s cubic-bezier(.4,0,.2,1), padding .35s',
           animation: 'slideDown .4s ease',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 15, color: 'var(--text)', whiteSpace: 'nowrap' }}>
+          {/* Hamburger — mobile only */}
+          <button
+            className="hamburger-btn"
+            onClick={() => setMobileSidebarOpen(o => !o)}
+            title="Toggle menu"
+          >☰</button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 15, color: 'var(--text)', whiteSpace: 'nowrap', flexShrink: 0 }}>
             <div style={{ width: 28, height: 28, background: 'linear-gradient(135deg,#2f81f7,#bc8cff)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#fff', fontWeight: 900 }}>⊞</div>
             {BRAND}
           </div>
           <div style={{ flex: 1 }} />
-          <div style={{ position: 'relative', flex: 1, maxWidth: 360 }}>
+          <div style={{ position: 'relative', flex: 1, maxWidth: 360, minWidth: 0 }}>
             <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text3)', fontSize: 13 }}>🔍</span>
             <input className="input" placeholder="Search projects, devs, tutorials..." style={{ paddingLeft: 32, height: 34, borderRadius: 20 }} />
           </div>
           <div style={{ flex: 1 }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Link to="/about" style={{ color: 'var(--text2)', fontSize: 12, textDecoration: 'none', padding: '4px 10px', borderRadius: 6, transition: 'all .15s' }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>About</Link>
-            <Link to="/faq" style={{ color: 'var(--text2)', fontSize: 12, textDecoration: 'none', padding: '4px 10px', borderRadius: 6, transition: 'all .15s' }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>FAQ</Link>
+            <Link to="/about" style={{ color: 'var(--text2)', fontSize: 12, textDecoration: 'none', padding: '4px 10px', borderRadius: 6, transition: 'all .15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}
+              className="resp-hide-480">About</Link>
+            <Link to="/faq" style={{ color: 'var(--text2)', fontSize: 12, textDecoration: 'none', padding: '4px 10px', borderRadius: 6, transition: 'all .15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}
+              className="resp-hide-480">FAQ</Link>
             <Link to="/profile" style={{ textDecoration: 'none' }}>
               <div className="avatar-placeholder" style={{ cursor: 'pointer', transition: 'box-shadow .2s, transform .2s', background: 'linear-gradient(135deg,#2f81f7,#bc8cff)' }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 0 2px #2f81f7'; e.currentTarget.style.transform = 'scale(1.08)'; }}
@@ -124,15 +164,19 @@ export default function Dashboard() {
       </div>
 
       <div style={{ display: 'flex' }}>
-        {/* ── SIDEBAR ───────────────────────────────────── */}
+        {/* ── SIDEBAR ─────────────────────────────────────────── */}
         <div style={{ position: 'relative', display: 'flex', flexShrink: 0 }}>
+          {/* Desktop sidebar */}
           <aside style={{
-            width: sidebarOpen ? 220 : 0, minHeight: navOpen ? 'calc(100vh - 57px)' : '100vh',
+            width: sidebarOpen ? 220 : 0,
+            minHeight: navOpen ? 'calc(100vh - 57px)' : '100vh',
             background: 'var(--bg)', borderRight: sidebarOpen ? '1px solid var(--border)' : 'none',
             padding: sidebarOpen ? '16px 0' : 0, display: 'flex', flexDirection: 'column',
             position: 'sticky', top: navOpen ? 57 : 0, height: navOpen ? 'calc(100vh - 57px)' : '100vh',
             overflow: 'hidden', transition: 'width .35s cubic-bezier(.4,0,.2,1), padding .35s, border .35s', flexShrink: 0,
-          }}>
+          }}
+            className="resp-desktop-sidebar"
+          >
             <div style={{ padding: '0 12px', marginBottom: 8 }}>
               <input className="input" placeholder="Quick search..." style={{ height: 32, fontSize: 12 }} />
             </div>
@@ -144,10 +188,14 @@ export default function Dashboard() {
             ))}
             <div style={{ flex: 1 }} />
             <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <Link to="/about" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
+              <Link to="/about" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
                 ℹ️ About {BRAND}
               </Link>
-              <Link to="/faq" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }} onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
+              <Link to="/faq" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }}
+                onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
                 ❓ FAQ
               </Link>
               <Link to="/profile" style={{ textDecoration: 'none' }}>
@@ -157,7 +205,10 @@ export default function Dashboard() {
               </Link>
             </div>
           </aside>
-          <div style={{ position: 'sticky', top: navOpen ? 57 : 0, alignSelf: 'flex-start', height: 0, transition: 'top .35s cubic-bezier(.4,0,.2,1)', zIndex: 50 }}>
+
+          {/* Desktop sidebar toggle */}
+          <div style={{ position: 'sticky', top: navOpen ? 57 : 0, alignSelf: 'flex-start', height: 0, transition: 'top .35s cubic-bezier(.4,0,.2,1)', zIndex: 50 }}
+            className="resp-desktop-sidebar">
             <button onClick={() => setSidebarOpen(o => !o)} title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
               style={{ position: 'absolute', left: 0, top: 20, width: 20, height: 52, background: 'var(--bg2)', border: '1px solid var(--border2)', borderLeft: 'none', borderRadius: '0 8px 8px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text2)', fontSize: 12, fontWeight: 700, transition: 'all .18s', boxShadow: '2px 0 8px rgba(0,0,0,.3)' }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg3)'; e.currentTarget.style.color = 'var(--text)'; }}
@@ -167,18 +218,48 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* ── MAIN ──────────────────────────────────────── */}
+        {/* Mobile sidebar (slide-over) */}
+        <aside style={{
+          position: 'fixed', left: mobileSidebarOpen ? 0 : '-260px', top: 57, width: 240,
+          height: 'calc(100vh - 57px)', background: 'var(--bg)', borderRight: '1px solid var(--border)',
+          padding: '16px 0', display: 'flex', flexDirection: 'column',
+          transition: 'left .3s cubic-bezier(.4,0,.2,1)', zIndex: 199,
+          boxShadow: mobileSidebarOpen ? '4px 0 24px rgba(0,0,0,.5)' : 'none',
+          overflow: 'hidden auto',
+        }}>
+          <div style={{ padding: '0 12px', marginBottom: 8 }}>
+            <input className="input" placeholder="Quick search..." style={{ height: 32, fontSize: 12 }} />
+          </div>
+          {sidebarItems.map((item, i) => (
+            <Link key={item.label} to={item.to} className={`sidebar-item ${item.active ? 'active' : ''}`}
+              style={{ textDecoration: 'none' }}
+              onClick={() => setMobileSidebarOpen(false)}>
+              <span style={{ fontSize: 15 }}>{item.icon}</span>
+              {item.label}
+            </Link>
+          ))}
+          <div style={{ flex: 1 }} />
+          <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <Link to="/profile" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
+              <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>
+                ⬡ Sign In
+              </button>
+            </Link>
+          </div>
+        </aside>
+
+        {/* ── MAIN ──────────────────────────────────────────────── */}
         <main style={{ flex: 1, minWidth: 0 }}>
 
           {/* HERO */}
-          <section style={{ padding: '64px 48px 48px', position: 'relative', overflow: 'hidden', minHeight: 500, display: 'flex', alignItems: 'center', gap: 40 }}>
+          <section style={{ padding: 'clamp(32px,5vw,64px) clamp(16px,4vw,48px) clamp(28px,4vw,48px)', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', gap: 40, flexWrap: 'wrap' }}>
             <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(47,129,247,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(47,129,247,.04) 1px,transparent 1px)', backgroundSize: '40px 40px', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', top: -80, right: -80, width: 500, height: 500, background: 'radial-gradient(circle,rgba(47,129,247,.07),transparent 70%)', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', bottom: -80, left: '30%', width: 300, height: 300, background: 'radial-gradient(circle,rgba(188,140,255,.06),transparent 70%)', pointerEvents: 'none' }} />
 
-            <div style={{ flex: 1, zIndex: 1, opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateX(-20px)', transition: 'all .6s ease' }}>
+            <div style={{ flex: '1 1 300px', zIndex: 1, opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateX(-20px)', transition: 'all .6s ease' }}>
               <div className="badge badge-blue" style={{ marginBottom: 20, fontSize: 10, letterSpacing: 1 }}>⚡ OPEN SOURCE INTELLIGENCE PLATFORM</div>
-              <h1 style={{ fontSize: 'clamp(2.4rem,4.5vw,3.6rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: -2, marginBottom: 20, color: 'var(--text)' }}>
+              <h1 style={{ fontSize: 'clamp(2rem,4.5vw,3.6rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: -2, marginBottom: 20, color: 'var(--text)' }}>
                 Your Ultimate<br />
                 <span style={{ background: 'linear-gradient(90deg,#2f81f7,#bc8cff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'block' }}>Built On It</span>
                 Platform
@@ -200,8 +281,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Code window */}
-            <div style={{ flex: 1, maxWidth: 440, zIndex: 1, opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateX(20px)', transition: 'all .7s ease .2s', animation: visible ? 'float 4s ease-in-out infinite' : 'none' }}>
+            {/* Code window — hidden on mobile via inline display */}
+            <div style={{ flex: '1 1 340px', maxWidth: 440, zIndex: 1, opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateX(20px)', transition: 'all .7s ease .2s', animation: visible ? 'float 4s ease-in-out infinite' : 'none' }}
+              className="hero-code-panel">
               <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,.55)' }}>
                 <div style={{ background: 'var(--bg3)', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 6, borderBottom: '1px solid var(--border)' }}>
                   <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
@@ -223,14 +305,14 @@ export default function Dashboard() {
           </section>
 
           {/* FEATURES GRID */}
-          <section style={{ padding: '0 48px 56px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+          <section style={{ padding: '0 clamp(16px,4vw,48px) clamp(32px,5vw,56px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
               <div>
                 <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 4 }}>Everything you need</h2>
                 <p style={{ color: 'var(--text2)', fontSize: 13 }}>All the tools and features, built into one platform.</p>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14, marginBottom: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 14 }}>
               {features.map((f, i) => (
                 <Link key={f.label} to={f.to} style={{ textDecoration: 'none', display: 'block', animation: `fadeIn .4s ease ${i * 0.07}s both` }}>
                   <div className="card" style={{ padding: '20px 22px', cursor: 'pointer', display: 'flex', alignItems: 'flex-start', gap: 14, transition: 'all .2s' }}
@@ -248,15 +330,15 @@ export default function Dashboard() {
           </section>
 
           {/* FEATURED PROJECTS */}
-          <section style={{ padding: '0 48px 56px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <section style={{ padding: '0 clamp(16px,4vw,48px) clamp(32px,5vw,56px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 10 }}>
               <div>
                 <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 4 }}>Featured Projects</h2>
                 <p style={{ color: 'var(--text2)', fontSize: 13 }}>The most popular and trending tools in our ecosystem.</p>
               </div>
               <Link to="/explore" style={{ color: 'var(--blue)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>View all →</Link>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16, marginBottom: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {featured.map((p, i) => (
                 <Link key={p.title} to="/explore" style={{ textDecoration: 'none' }}>
                   <div className="card" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', animation: `fadeIn .4s ease ${i * 0.1 + 0.3}s both` }}>
@@ -280,15 +362,15 @@ export default function Dashboard() {
           </section>
 
           {/* NEW ARRIVALS + CTA STRIP */}
-          <section style={{ padding: '0 48px 56px' }}>
-            <div style={{ display: 'flex', gap: 20 }}>
+          <section style={{ padding: '0 clamp(16px,4vw,48px) clamp(32px,5vw,56px)' }}>
+            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {/* New Arrivals */}
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: '1 1 300px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                   <span style={{ fontSize: 16 }}>🚀</span>
                   <h2 style={{ fontSize: '1.1rem', fontWeight: 700 }}>New Arrivals</h2>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 10 }}>
                   {arrivals.map((a, i) => (
                     <div key={a.title} className="card" style={{ padding: '14px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, animation: `fadeIn .4s ease ${i * 0.08 + 0.5}s both` }}>
                       <div style={{ width: 32, height: 32, background: a.color + '22', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{a.icon}</div>
@@ -302,8 +384,8 @@ export default function Dashboard() {
               </div>
 
               {/* CTA Card */}
-              <div style={{ width: 300, flexShrink: 0 }}>
-                <div style={{ background: 'linear-gradient(135deg, rgba(47,129,247,.08), rgba(188,140,255,.08))', border: '1px solid rgba(47,129,247,.2)', borderRadius: 14, padding: '28px 24px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12 }}>
+              <div style={{ flex: '1 1 260px', maxWidth: 340 }}>
+                <div style={{ background: 'linear-gradient(135deg, rgba(47,129,247,.08), rgba(188,140,255,.08))', border: '1px solid rgba(47,129,247,.2)', borderRadius: 14, padding: 'clamp(20px,3vw,28px) 24px', height: '100%', minHeight: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12 }}>
                   <div style={{ fontSize: 32 }}>🌐</div>
                   <h3 style={{ fontWeight: 800, fontSize: '1.1rem', lineHeight: 1.3 }}>Join {stats[0].n} developers on {BRAND}</h3>
                   <p style={{ color: 'var(--text2)', fontSize: 12.5, lineHeight: 1.7 }}>Share your projects, discover new tools, learn from tutorials, and collaborate with the global developer community.</p>
@@ -317,8 +399,8 @@ export default function Dashboard() {
           </section>
 
           {/* FOOTER */}
-          <footer style={{ borderTop: '1px solid var(--border)', padding: '40px 48px', background: 'var(--bg)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', gap: 32, marginBottom: 32 }}>
+          <footer style={{ borderTop: '1px solid var(--border)', padding: 'clamp(24px,4vw,40px) clamp(16px,4vw,48px)', background: 'var(--bg)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 28, marginBottom: 28 }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, marginBottom: 12 }}>
                   <div style={{ width: 22, height: 22, background: 'linear-gradient(135deg,#2f81f7,#bc8cff)', borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: '#fff' }}>⊞</div>
@@ -340,17 +422,31 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-            <div style={{ borderTop: '1px solid var(--border)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ borderTop: '1px solid var(--border)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
               <span style={{ color: 'var(--text3)', fontSize: 12 }}>© 2024 {BRAND}. Crafted for the global developer community.</span>
-              <div style={{ display: 'flex', gap: 16 }}>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                 {[['Contact', '/contact'], ['FAQ', '/faq'], ['Privacy', '/privacy'], ['Terms', '/terms']].map(([l, to]) => (
-                  <Link key={l} to={to} style={{ color: 'var(--text2)', fontSize: 12, textDecoration: 'none', transition: 'color .15s' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text2)'}>{l}</Link>
+                  <Link key={l} to={to} style={{ color: 'var(--text2)', fontSize: 12, textDecoration: 'none', transition: 'color .15s' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text2)'}>{l}</Link>
                 ))}
               </div>
             </div>
           </footer>
         </main>
       </div>
+
+      {/* Hide desktop sidebar elements on mobile via style */}
+      <style>{`
+        @media(max-width:768px){
+          .resp-desktop-sidebar{display:none!important}
+          .hero-code-panel{display:none!important}
+          .resp-hide-480{display:none}
+        }
+        @media(max-width:480px){
+          .resp-hide-480{display:none!important}
+        }
+      `}</style>
     </div>
   );
 }

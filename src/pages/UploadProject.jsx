@@ -22,15 +22,15 @@ export default function SubmitProject() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       {/* TOPNAV */}
-      <nav style={{ height: 57, background: 'rgba(13,17,23,.95)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 20px', gap: 12, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
+      <nav style={{ height: 57, background: 'rgba(13,17,23,.95)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 clamp(12px,3vw,20px)', gap: 10, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)', whiteSpace: 'nowrap', flexShrink: 0 }}>
           <div style={{ width: 28, height: 28, background: 'var(--blue)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>🚀</div>
-          DevVault
+          Built On It
         </Link>
         <div style={{ marginLeft: '20px', display: 'flex', gap: 4 }}>
           {['Projects','Feed','Showcase'].map(l => <Link key={l} to="#" className="topnav-link">{l}</Link>)}
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, flexShrink: 0 }}>
           <button className="btn-icon">🔔</button>
           <div className="avatar-placeholder" style={{ background: 'linear-gradient(135deg,#f97316,#d29922)' }}>A</div>
         </div>
@@ -59,7 +59,7 @@ export default function SubmitProject() {
 
         {/* FORM */}
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '28px 32px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 20, marginBottom: 20 }}>
             <div>
               <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 8, color: 'var(--text)' }}>Project Name</label>
               <input className="input" placeholder="e.g. Lumina Dashboard" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
@@ -70,7 +70,7 @@ export default function SubmitProject() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 20, marginBottom: 20 }}>
             <div>
               <label style={{ display: 'block', fontWeight: 600, fontSize: 13, marginBottom: 8, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span>🔗</span> Repository URL

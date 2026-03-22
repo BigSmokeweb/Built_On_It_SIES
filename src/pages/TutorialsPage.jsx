@@ -78,21 +78,21 @@ export default function Tutorials() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       {/* TOP NAV WRAPPER */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
-        <nav style={{ height: navOpen ? 57 : 0, overflow: 'hidden', background: 'rgba(13,17,23,.95)', borderBottom: navOpen ? '1px solid var(--border)' : 'none', display: 'flex', alignItems: 'center', padding: navOpen ? '0 20px' : '0', gap: 12, backdropFilter: 'blur(12px)', transition: 'height .35s cubic-bezier(.4,0,.2,1), padding .35s', animation: 'slideDown .4s ease' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+        <nav style={{ height: navOpen ? 57 : 0, overflow: 'hidden', background: 'rgba(13,17,23,.95)', borderBottom: navOpen ? '1px solid var(--border)' : 'none', display: 'flex', alignItems: 'center', padding: navOpen ? '0 clamp(12px,3vw,20px)' : '0', gap: 10, backdropFilter: 'blur(12px)', transition: 'height .35s cubic-bezier(.4,0,.2,1), padding .35s', animation: 'slideDown .4s ease' }}>
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
             <div style={{ width: 28, height: 28, background: 'var(--blue)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#fff' }}>⊞</div>
-            DevVault
+            Built On It
           </Link>
-          <div style={{ flex: 1, maxWidth: 400, position: 'relative', marginLeft: 8 }}>
+          <div style={{ flex: 1, maxWidth: 400, position: 'relative', marginLeft: 8, minWidth: 0 }}>
             <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text3)', fontSize: 13 }}>🔍</span>
             <input className="input" placeholder="Search tutorials, authors, or topics..." style={{ paddingLeft: 32, height: 34 }} value={search} onChange={e => setSearch(e.target.value)} />
           </div>
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center' }}>
-            <button className="btn btn-primary btn-sm" onClick={() => { setShowUpload(true); setStep(0); }} style={{ gap: 6 }}>
+          <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
+            <button className="btn btn-primary btn-sm" onClick={() => { setShowUpload(true); setStep(0); }} style={{ gap: 6, whiteSpace: 'nowrap' }}>
               <span>+</span> Upload Tutorial
             </button>
             <button className="btn-icon">🔔</button>
-            <div className="avatar-placeholder">DV</div>
+            <div className="avatar-placeholder">MS</div>
             <button onClick={() => setNavOpen(false)} title="Hide navigation"
               style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, transition: 'all .18s', fontSize: 14 }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg4)'; e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.boxShadow = '0 0 0 2px rgba(47,129,247,.3)'; }}
@@ -104,7 +104,7 @@ export default function Tutorials() {
           <button onClick={() => setNavOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 16px', background: 'rgba(13,17,23,.97)', border: '1px solid var(--border2)', borderTop: 'none', borderRadius: '0 0 10px 10px', color: 'var(--text2)', fontSize: 12, fontWeight: 600, cursor: 'pointer', backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(0,0,0,.4)', transition: 'all .18s' }}
             onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(47,129,247,.2)'; }}
             onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,.4)'; }}>
-            <span style={{ fontSize: 11 }}>↓</span> DevVault
+            <span style={{ fontSize: 11 }}>↓</span> Built On It
           </button>
         </div>
       </div>
@@ -283,7 +283,7 @@ export default function Tutorials() {
                       <span style={{ fontSize: 20 }}>🎉</span>
                       <div>
                         <div style={{ fontWeight: 700, color: '#56d364', fontSize: 14 }}>Tutorial Published!</div>
-                        <div style={{ color: 'var(--text2)', fontSize: 12 }}>Your tutorial is now live on DevVault.</div>
+                        <div style={{ color: 'var(--text2)', fontSize: 12 }}>Your tutorial is now live on Built On It.</div>
                       </div>
                     </div>
                   )}
@@ -330,7 +330,7 @@ export default function Tutorials() {
         </div>
 
         {/* STATS STRIP */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 32, animation: 'fadeIn .4s ease .05s both' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 12, marginBottom: 32, animation: 'fadeIn .4s ease .05s both' }}>
           {[{ n: '847', l: 'Tutorials', icon: '📚' }, { n: '12.4k', l: 'Learners', icon: '👥' }, { n: '342', l: 'Contributors', icon: '✦' }, { n: '98%', l: 'Rated Helpful', icon: '⭐' }].map(s => (
             <div key={s.l} className="card" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 22 }}>{s.icon}</span>
@@ -423,13 +423,13 @@ export default function Tutorials() {
         )}
 
         {/* FOOTER */}
-        <footer style={{ borderTop: '1px solid var(--border)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <footer style={{ borderTop: '1px solid var(--border)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text2)', fontSize: 13 }}>
             <div style={{ width: 18, height: 18, background: 'var(--blue)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>⊞</div>
-            DevVault © 2024
+            Built On It © 2024
           </div>
-          <div style={{ display: 'flex', gap: 20 }}>
-            {['Privacy', 'Terms', 'About', 'Contact'].map(l => <span key={l} style={{ color: 'var(--text2)', fontSize: 13, cursor: 'pointer' }}>{l}</span>)}
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            {[['Privacy','/privacy'],['Terms','/terms'],['About','/about'],['Contact','/contact']].map(([l,to]) => <Link key={l} to={to} style={{ color: 'var(--text2)', fontSize: 13, textDecoration: 'none' }}>{l}</Link>)}
           </div>
         </footer>
       </div>

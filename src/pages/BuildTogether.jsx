@@ -339,19 +339,19 @@ export default function Collab() {
     <div style={{ background:'var(--bg)', minHeight:'100vh' }}>
       {/* NAV */}
       <div style={{ position:'sticky', top:0, zIndex:100 }}>
-        <nav style={{ height: navOpen ? 57 : 0, overflow:'hidden', background:'rgba(13,17,23,.95)', borderBottom: navOpen ? '1px solid var(--border)' : 'none', display:'flex', alignItems:'center', padding: navOpen ? '0 20px' : '0', gap:12, backdropFilter:'blur(12px)', transition:'height .35s cubic-bezier(.4,0,.2,1), padding .35s', animation:'slideDown .4s ease' }}>
-          <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, fontWeight:700, fontSize:15, color:'var(--text)', textDecoration:'none', whiteSpace:'nowrap' }}>
+        <nav style={{ height: navOpen ? 57 : 0, overflow:'hidden', background:'rgba(13,17,23,.95)', borderBottom: navOpen ? '1px solid var(--border)' : 'none', display:'flex', alignItems:'center', padding: navOpen ? '0 clamp(12px,3vw,20px)' : '0', gap:10, backdropFilter:'blur(12px)', transition:'height .35s cubic-bezier(.4,0,.2,1), padding .35s', animation:'slideDown .4s ease' }}>
+          <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, fontWeight:700, fontSize:15, color:'var(--text)', textDecoration:'none', whiteSpace:'nowrap', flexShrink:0 }}>
             <div style={{ width:28, height:28, background:'var(--blue)', borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13 }}>⊞</div>
-            DevVault
+            Built On It
           </Link>
-          <div style={{ flex:1, maxWidth:420, position:'relative' }}>
+          <div style={{ flex:1, maxWidth:420, position:'relative', minWidth:0 }}>
             <span style={{ position:'absolute', left:10, top:'50%', transform:'translateY(-50%)', color:'var(--text3)', fontSize:13 }}>🔍</span>
             <input className="input" placeholder="Search projects or tech stacks..." style={{ paddingLeft:32, height:34 }} value={search} onChange={e => setSearch(e.target.value)} />
           </div>
-          <div style={{ marginLeft:'auto', display:'flex', gap:8, alignItems:'center' }}>
-            <button className="btn btn-primary btn-sm" onClick={() => setShowPost(true)}>+ Post Project</button>
+          <div style={{ marginLeft:'auto', display:'flex', gap:8, alignItems:'center', flexShrink:0 }}>
+            <button className="btn btn-primary btn-sm" onClick={() => setShowPost(true)} style={{ whiteSpace:'nowrap' }}>+ Post Project</button>
             <button className="btn-icon">🔔</button>
-            <div className="avatar-placeholder">DV</div>
+            <div className="avatar-placeholder">MS</div>
             <button onClick={() => setNavOpen(false)}
               style={{ width:28, height:28, borderRadius:'50%', background:'var(--bg3)', border:'1px solid var(--border2)', color:'var(--text2)', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', transition:'all .18s', fontSize:14 }}
               onMouseEnter={e => { e.currentTarget.style.background='var(--bg4)'; e.currentTarget.style.color='var(--text)'; e.currentTarget.style.boxShadow='0 0 0 2px rgba(47,129,247,.3)'; }}
@@ -362,7 +362,7 @@ export default function Collab() {
           <button onClick={() => setNavOpen(true)} style={{ display:'flex', alignItems:'center', gap:6, padding:'5px 16px', background:'rgba(13,17,23,.97)', border:'1px solid var(--border2)', borderTop:'none', borderRadius:'0 0 10px 10px', color:'var(--text2)', fontSize:12, fontWeight:600, cursor:'pointer', backdropFilter:'blur(12px)', boxShadow:'0 4px 20px rgba(0,0,0,.4)', transition:'all .18s' }}
             onMouseEnter={e => { e.currentTarget.style.color='var(--text)'; e.currentTarget.style.boxShadow='0 4px 24px rgba(47,129,247,.2)'; }}
             onMouseLeave={e => { e.currentTarget.style.color='var(--text2)'; e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,.4)'; }}>
-            <span style={{ fontSize:11 }}>↓</span> DevVault
+            <span style={{ fontSize:11 }}>↓</span> Built On It
           </button>
         </div>
       </div>
@@ -371,7 +371,8 @@ export default function Collab() {
       {showPost && <PostModal onClose={() => setShowPost(false)} onPost={p => setProjects(ps => [p, ...ps])} />}
       {applyTarget && <ApplyModal project={applyTarget} onClose={() => setApplyTarget(null)} />}
 
-      <div style={{ maxWidth:1160, margin:'0 auto', padding:'28px 20px', display:'grid', gridTemplateColumns:'1fr 290px', gap:22, alignItems:'start' }}>
+      <div style={{ maxWidth:1160, margin:'0 auto', padding:'clamp(16px,3vw,28px) clamp(14px,3vw,20px)', display:'grid', gridTemplateColumns:'minmax(0,1fr)', gap:22, alignItems:'start' }}
+        className="collab-grid">
         {/* LEFT — MAIN FEED */}
         <div>
           {/* Hero */}
@@ -389,7 +390,7 @@ export default function Collab() {
           </div>
 
           {/* Stats strip */}
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, marginBottom:24, animation:'fadeIn .4s ease .05s both' }}>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:12, marginBottom:24, animation:'fadeIn .4s ease .05s both' }}>
             {[{ n:'247', l:'Active Projects', icon:'🚀' }, { n:'1.2k', l:'Contributors', icon:'👥' }, { n:'89', l:'Shipped This Month', icon:'✅' }, { n:'340', l:'Spots Open', icon:'🎯' }].map(s => (
               <div key={s.l} className="card" style={{ padding:'14px 16px', display:'flex', alignItems:'center', gap:10 }}>
                 <span style={{ fontSize:20 }}>{s.icon}</span>
@@ -491,15 +492,18 @@ export default function Collab() {
       </div>
 
       {/* FOOTER */}
-      <footer style={{ borderTop:'1px solid var(--border)', padding:'20px 24px', display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:24 }}>
+      <footer style={{ borderTop:'1px solid var(--border)', padding:'clamp(14px,3vw,20px) clamp(14px,3vw,24px)', display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:24, flexWrap:'wrap', gap:12 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, color:'var(--text2)', fontSize:13 }}>
           <div style={{ width:18, height:18, background:'var(--blue)', borderRadius:4, display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>⊞</div>
-          DevVault © 2024
+          Built On It © 2024
         </div>
-        <div style={{ display:'flex', gap:20 }}>
-          {['Privacy','Terms','About','Contact'].map(l => <span key={l} style={{ color:'var(--text2)', fontSize:13, cursor:'pointer' }}>{l}</span>)}
+        <div style={{ display:'flex', gap:16, flexWrap:'wrap' }}>
+          {[['Privacy','/privacy'],['Terms','/terms'],['About','/about'],['Contact','/contact']].map(([l,to]) => <Link key={l} to={to} style={{ color:'var(--text2)', fontSize:13, textDecoration:'none' }}>{l}</Link>)}
         </div>
       </footer>
+      <style>{`
+        @media(min-width:769px){.collab-grid{grid-template-columns:minmax(0,1fr) 290px!important}}
+      `}</style>
     </div>
   );
 }

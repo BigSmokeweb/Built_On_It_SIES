@@ -162,7 +162,7 @@ export default function Categories() {
         borderBottom: '1px solid var(--border)',
         display: 'flex',
         alignItems: 'center',
-        padding: '0 32px',
+        padding: '0 clamp(14px,3vw,32px)',
         gap: 16,
         position: 'sticky',
         top: 0,
@@ -223,7 +223,7 @@ export default function Categories() {
         </div>
 
         {/* Category Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 56 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 56 }}>
           {categories.map((cat, i) => (
             <CategoryCard key={cat.title} cat={cat} i={i} onBrowse={goToExplore} />
           ))}
@@ -256,20 +256,15 @@ export default function Categories() {
         </div>
 
         {/* Footer */}
-        <footer style={{ borderTop: '1px solid var(--border)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <footer style={{ borderTop: '1px solid var(--border)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text2)', fontSize: 13 }}>
             <div style={{ width: 18, height: 18, background: 'var(--blue)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
               <VaultIcon />
             </div>
-            DevVault © 2024
+            Built On It © 2024
           </div>
-          <div style={{ display: 'flex', gap: 24 }}>
-            {['Privacy', 'Terms', 'About', 'Contact'].map(l => (
-              <span key={l} style={{ color: 'var(--text2)', fontSize: 13, cursor: 'pointer', transition: 'color .15s' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text2)')}
-              >{l}</span>
-            ))}
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            {[['Privacy','/privacy'],['Terms','/terms'],['About','/about'],['Contact','/contact']].map(([l,to]) => <Link key={l} to={to} style={{ color: 'var(--text2)', fontSize: 13, cursor: 'pointer', transition: 'color .15s', textDecoration: 'none' }}>{l}</Link>)}
           </div>
         </footer>
       </main>

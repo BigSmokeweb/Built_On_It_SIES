@@ -10,8 +10,8 @@ const VaultIcon = () => (
 const channels = [
   { icon: '💬', title: 'Community Discord', desc: 'Join 8,000+ developers in our Discord. Fastest way to get help.', action: 'Join Discord', color: '#5865f2' },
   { icon: '🐛', title: 'Bug Reports', desc: 'Found a bug? Open an issue on our GitHub and we\'ll fix it fast.', action: 'Open Issue', color: '#3fb950' },
-  { icon: '📧', title: 'Email Support', desc: 'For account or billing issues, reach us at support@devvault.io', action: 'Send Email', color: '#2f81f7' },
-  { icon: '🐦', title: 'Twitter / X', desc: 'Follow @Built On ItHQ for updates, announcements, and tips.', action: 'Follow Us', color: '#1d9bf0' },
+  { icon: '📧', title: 'Email Support', desc: 'For account or billing issues, reach us at support@builtonit.io', action: 'Send Email', color: '#2f81f7' },
+  { icon: '🐦', title: 'Twitter / X', desc: 'Follow @BuiltOnItHQ for updates, announcements, and tips.', action: 'Follow Us', color: '#1d9bf0' },
 ];
 
 export default function ContactPage() {
@@ -29,7 +29,7 @@ export default function ContactPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
 
       {/* NAV */}
-      <nav style={{ height: 57, background: 'rgba(13,17,23,.97)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 32px', gap: 16, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
+      <nav style={{ height: 57, background: 'rgba(13,17,23,.97)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 clamp(14px,3vw,32px)', gap: 16, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)', textDecoration: 'none' }}>
           <div style={{ width: 28, height: 28, background: 'var(--blue)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><VaultIcon /></div>
           Built On It
@@ -40,7 +40,7 @@ export default function ContactPage() {
         </div>
       </nav>
 
-      <main style={{ maxWidth: 1000, margin: '0 auto', padding: '56px 32px 80px' }}>
+      <main style={{ maxWidth: 1000, margin: '0 auto', padding: 'clamp(32px,5vw,56px) clamp(16px,4vw,32px) 80px' }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 56, animation: 'fadeIn .5s ease' }}>
@@ -50,7 +50,7 @@ export default function ContactPage() {
         </div>
 
         {/* Channels */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 56, animation: 'fadeIn .5s ease .1s both' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 14, marginBottom: 56, animation: 'fadeIn .5s ease .1s both' }}>
           {channels.map((ch, i) => (
             <div key={ch.title} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '22px 18px', animation: `fadeIn .4s ease ${i * 0.08}s both` }}>
               <div style={{ fontSize: 26, marginBottom: 10 }}>{ch.icon}</div>
@@ -64,7 +64,7 @@ export default function ContactPage() {
         </div>
 
         {/* Form */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, animation: 'fadeIn .5s ease .2s both' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 32, animation: 'fadeIn .5s ease .2s both' }}>
           {/* Left */}
           <div>
             <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: 8 }}>Send us a message</h2>
@@ -79,7 +79,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))', gap: 12 }}>
                   <div>
                     <label style={{ fontSize: 12, color: 'var(--text2)', display: 'block', marginBottom: 6 }}>Name</label>
                     <input className="input" required placeholder="Your name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
@@ -130,7 +130,7 @@ export default function ContactPage() {
       </main>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '24px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <footer style={{ borderTop: '1px solid var(--border)', padding: 'clamp(14px,3vw,24px) clamp(14px,3vw,32px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text2)', fontSize: 13 }}>
           <div style={{ width: 18, height: 18, background: 'var(--blue)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><VaultIcon /></div>
           Built On It © 2024

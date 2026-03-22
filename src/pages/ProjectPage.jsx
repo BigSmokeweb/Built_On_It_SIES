@@ -42,22 +42,23 @@ export default function ProjectDetail() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       {/* TOPNAV */}
-      <nav style={{ height:57, background:'rgba(13,17,23,.95)', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', padding:'0 20px', gap:12, position:'sticky', top:0, zIndex:100, backdropFilter:'blur(12px)', animation:'slideDown .4s ease' }}>
-        <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, fontWeight:700, fontSize:15, color:'var(--text)', textDecoration:'none' }}>
+      <nav style={{ height:57, background:'rgba(13,17,23,.95)', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', padding:'0 clamp(12px,3vw,20px)', gap:10, position:'sticky', top:0, zIndex:100, backdropFilter:'blur(12px)', animation:'slideDown .4s ease' }}>
+        <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, fontWeight:700, fontSize:15, color:'var(--text)', textDecoration:'none', whiteSpace:'nowrap', flexShrink:0 }}>
           <div style={{ width:28, height:28, background:'var(--blue)', borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13 }}>⊞</div>
-          DevVault
+          Built On It
         </Link>
-        <div style={{ flex:1, maxWidth:380, position:'relative' }}>
+        <div style={{ flex:1, maxWidth:380, position:'relative', minWidth:0 }}>
           <span style={{ position:'absolute', left:10, top:'50%', transform:'translateY(-50%)', color:'var(--text3)' }}>🔍</span>
           <input className="input" placeholder="Search projects, authors, or tags..." style={{ paddingLeft:32, height:34 }} />
         </div>
-        <div style={{ marginLeft:'auto', display:'flex', gap:8 }}>
+        <div style={{ marginLeft:'auto', display:'flex', gap:8, flexShrink:0 }}>
           <button className="btn-icon">🔔</button>
           <div className="avatar-placeholder" style={{ background:'linear-gradient(135deg,#f97316,#d29922)' }}>A</div>
         </div>
       </nav>
 
-      <div style={{ maxWidth:1100, margin:'0 auto', padding:'28px 24px', display:'grid', gridTemplateColumns:'1fr 300px', gap:24, animation:'fadeIn .4s ease' }}>
+      <div style={{ maxWidth:1100, margin:'0 auto', padding:'clamp(16px,3vw,28px) clamp(14px,3vw,24px)', display:'grid', gridTemplateColumns:'minmax(0,1fr)', gap:24, animation:'fadeIn .4s ease' }}
+        className="project-detail-grid">
         {/* LEFT COLUMN */}
         <div>
           {/* PROJECT HEADER */}
@@ -99,7 +100,7 @@ export default function ProjectDetail() {
           </div>
 
           {/* TABS */}
-          <div style={{ display:'flex', borderBottom:'1px solid var(--border)', marginBottom:0 }}>
+          <div style={{ display:'flex', borderBottom:'1px solid var(--border)', marginBottom:0, overflowX:'auto', scrollbarWidth:'none' }}>
             {tabs.map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding:'10px 18px', border:'none', cursor:'pointer', background:'transparent', color: activeTab===tab ? 'var(--text)' : 'var(--text2)', fontSize:13, fontWeight: activeTab===tab ? 600 : 400, borderBottom:`2px solid ${activeTab===tab ? 'var(--blue)' : 'transparent'}`, transition:'all .18s', marginBottom:-1 }}>
                 {tab}
@@ -264,15 +265,19 @@ export default function ProjectDetail() {
       </div>
 
       {/* FOOTER */}
-      <footer style={{ borderTop:'1px solid var(--border)', padding:'20px 24px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+      <footer style={{ borderTop:'1px solid var(--border)', padding:'clamp(14px,3vw,20px) clamp(14px,3vw,24px)', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, color:'var(--text2)', fontSize:13 }}>
           <div style={{ width:18, height:18, background:'var(--blue)', borderRadius:4, display:'flex', alignItems:'center', justifyContent:'center', fontSize:10 }}>⊞</div>
-          DevVault © 2024 Built for developers.
+          Built On It © 2024. Built for developers.
         </div>
-        <div style={{ display:'flex', gap:20 }}>
-          {['Privacy','Terms','Contact','Twitter'].map(l => <span key={l} style={{ color:'var(--text2)', fontSize:13, cursor:'pointer' }}>{l}</span>)}
+        <div style={{ display:'flex', gap:16, flexWrap:'wrap' }}>
+          {[['Privacy','/privacy'],['Terms','/terms'],['Contact','/contact']].map(([l,to]) => <Link key={l} to={to} style={{ color:'var(--text2)', fontSize:13, textDecoration:'none' }}>{l}</Link>)}
         </div>
       </footer>
+      <style>{`
+        @media(min-width:769px){.project-detail-grid{grid-template-columns:minmax(0,1fr) 300px!important}}
+        .project-detail-grid>div:first-child{min-width:0}
+      `}</style>
     </div>
   );
 }
