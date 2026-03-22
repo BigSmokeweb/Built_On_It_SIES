@@ -300,8 +300,8 @@ export default function Profile() {
           borderBottom: '1px solid var(--border)',
           display: 'flex',
           alignItems: 'center',
-          padding: '0 20px',
-          gap: 12,
+          padding: '0 clamp(12px,3vw,20px)',
+          gap: 10,
           position: 'sticky',
           top: 0,
           zIndex: 100,
@@ -333,8 +333,8 @@ export default function Profile() {
           Built On It
         </Link>
 
-        {/* Search */}
-        <div style={{ flex: 1, maxWidth: 380, position: 'relative', marginLeft: 8 }}>
+        {/* Search — hidden on small screens via class */}
+        <div style={{ flex: 1, maxWidth: 380, position: 'relative', marginLeft: 8, minWidth: 0 }} className="profile-search">
           <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text3)', fontSize: 13 }}>
             <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
@@ -364,12 +364,13 @@ export default function Profile() {
         style={{
           maxWidth: 1100,
           margin: '0 auto',
-          padding: '28px 24px',
+          padding: 'clamp(16px,3vw,28px) clamp(14px,3vw,24px)',
           display: 'grid',
-          gridTemplateColumns: '300px 1fr',
+          gridTemplateColumns: 'minmax(0, 1fr)',
           gap: 24,
           alignItems: 'start',
         }}
+        className="profile-grid"
       >
         {/* ── LEFT COLUMN ──────────────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -533,7 +534,7 @@ export default function Profile() {
         <div style={{ animation: 'fadeInRight .4s ease .1s both' }}>
 
           {/* Tabs */}
-          <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: 20 }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: 20, overflowX: 'auto', scrollbarWidth: 'none' }}>
             {tabs.map(tab => (
               <button
                 key={tab}
@@ -560,7 +561,7 @@ export default function Profile() {
           {/* ── MY PROJECTS TAB ────────────────────────────────── */}
           {activeTab === 'My Projects' && (
             <>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14, marginBottom: 24 }}>
                 {allProjects.map((p, i) => (
                   <ProjectCard key={p.id} p={p} i={i} />
                 ))}
@@ -641,7 +642,7 @@ export default function Profile() {
 
           {/* ── BOOKMARKS TAB ─────────────────────────────────── */}
           {activeTab === 'Bookmarks' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14 }}>
               {bookmarks.map((p, i) => (
                 <ProjectCard key={p.id} p={p} i={i} />
               ))}
@@ -682,11 +683,13 @@ export default function Profile() {
       <footer
         style={{
           borderTop: '1px solid var(--border)',
-          padding: '18px 24px',
+          padding: 'clamp(14px,3vw,18px) clamp(14px,3vw,24px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           marginTop: 8,
+          flexWrap: 'wrap',
+          gap: 12,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text2)', fontSize: 13 }}>
@@ -708,17 +711,31 @@ export default function Profile() {
           </div>
           Built On It © 2024
         </div>
-        <div style={{ display: 'flex', gap: 24 }}>
-          {['Privacy Policy', 'Terms of Service', 'Documentation', 'Support'].map(l => (
-            <span key={l} style={{ color: 'var(--text2)', fontSize: 12.5, cursor: 'pointer', transition: 'color .15s' }}
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+          {[['Privacy Policy', '/privacy'], ['Terms of Service', '/terms'], ['Contact', '/contact']].map(([l, to]) => (
+            <Link key={l} to={to} style={{ color: 'var(--text2)', fontSize: 12.5, cursor: 'pointer', transition: 'color .15s', textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--text2)')}
             >
               {l}
-            </span>
+            </Link>
           ))}
         </div>
       </footer>
+
+      {/* Responsive styles */}
+      <style>{`
+        @media(min-width: 769px) {
+          .profile-grid { grid-template-columns: 280px minmax(0,1fr) !important; }
+        }
+        @media(max-width: 768px) {
+          .profile-search { display: none !important; }
+          .profile-grid { grid-template-columns: 1fr !important; }
+        }
+        @media(max-width: 480px) {
+          .profile-search { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 }

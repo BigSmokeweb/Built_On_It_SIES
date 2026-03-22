@@ -95,7 +95,7 @@ export default function Explore() {
           background: 'rgba(13,17,23,.95)',
           borderBottom: navOpen ? '1px solid var(--border)' : 'none',
           display: 'flex', alignItems: 'center',
-          padding: navOpen ? '0 20px' : '0',
+          padding: navOpen ? '0 clamp(12px,3vw,20px)' : '0',
           gap: 8,
           backdropFilter: 'blur(12px)',
           transition: 'height .35s cubic-bezier(.4,0,.2,1), padding .35s',
@@ -288,7 +288,7 @@ export default function Explore() {
 
           {/* FOOTER */}
           <footer style={{ borderTop:'1px solid var(--border)', paddingTop:40 }}>
-            <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', gap:32, marginBottom:24 }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:24, marginBottom:24 }}>
               <div>
                 <div style={{ display:'flex', alignItems:'center', gap:8, fontWeight:700, marginBottom:10 }}>
                   <div style={{ width:22, height:22, background:'var(--blue)', borderRadius:5, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11 }}>⊞</div>
