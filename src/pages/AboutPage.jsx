@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const VaultIcon = () => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3zm1 3h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6z"/>
+    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3zm1 3h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6z" />
   </svg>
 );
 
@@ -14,10 +14,10 @@ const stats = [
 ];
 
 const team = [
-  { name: 'Milind Sahu', role: 'Founder & Lead Developer', initials: 'MS', gradient: 'linear-gradient(135deg,#2f81f7,#bc8cff)' },
-  { name: 'Aria Chen', role: 'Head of Design', initials: 'AC', gradient: 'linear-gradient(135deg,#3fb950,#00bcd4)' },
-  { name: 'Dev Rajan', role: 'Backend Engineer', initials: 'DR', gradient: 'linear-gradient(135deg,#e3b341,#f85149)' },
-  { name: 'Priya Nair', role: 'Community Manager', initials: 'PN', gradient: 'linear-gradient(135deg,#bc8cff,#f472b6)' },
+  { name: 'Milind Sahu', role: 'Founder & Frontend Developer', initials: 'MS', gradient: 'linear-gradient(135deg,#2f81f7,#bc8cff)' },
+  { name: 'Keshav Sharma', role: 'Backend Engineer', initials: 'KS', gradient: 'linear-gradient(135deg,#3fb950,#00bcd4)' },
+  { name: 'Revant Ganesh', role: 'UI/UX Designer', initials: 'RG', gradient: 'linear-gradient(135deg,#e3b341,#f85149)' },
+  { name: 'Soham Puri', role: 'Frontend Developer', initials: 'SP', gradient: 'linear-gradient(135deg,#bc8cff,#f472b6)' },
 ];
 
 const values = [
