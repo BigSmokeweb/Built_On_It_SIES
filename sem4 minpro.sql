@@ -22,3 +22,4 @@ ALTER TABLE problems
 ADD COLUMN status ENUM('open', 'in-progress', 'completed') DEFAULT 'open' AFTER description,
 ADD COLUMN taken_by VARCHAR(100) DEFAULT NULL AFTER status;
 
+
