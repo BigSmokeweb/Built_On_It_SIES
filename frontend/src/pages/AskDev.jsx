@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import NavUser from '../components/NavUser';
 
 // ─── Sample Data ─────────────────────────────────────────────────────────────
 const TAGS = ['React', 'Rust', 'TypeScript', 'Go', 'Python', 'Docker', 'Kubernetes', 'AI/ML', 'CSS', 'Node.js', 'Security', 'Database'];
@@ -301,7 +302,7 @@ export default function Community() {
           <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
             <button className="btn btn-primary btn-sm" onClick={() => setShowPost(true)} style={{ whiteSpace: 'nowrap' }}>+ Post Problem</button>
             <button className="btn-icon">🔔</button>
-            <div className="avatar-placeholder">MS</div>
+            <NavUser />
             <button onClick={() => setNavOpen(false)} title="Hide navigation"
               style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all .18s', fontSize: 14 }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg4)'; e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.boxShadow = '0 0 0 2px rgba(47,129,247,.3)'; }}

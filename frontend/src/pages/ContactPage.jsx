@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import NavUser from '../components/NavUser';
 
 const VaultIcon = () => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
@@ -29,14 +30,16 @@ export default function ContactPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
 
       {/* NAV */}
-      <nav style={{ height: 57, background: 'rgba(13,17,23,.97)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', padding: '0 clamp(14px,3vw,32px)', gap: 16, position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)', animation: 'slideDown .4s ease' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 15, color: 'var(--text)', textDecoration: 'none' }}>
-          <div style={{ width: 28, height: 28, background: 'var(--blue)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><VaultIcon /></div>
+      <nav style={{ height:57, background:'rgba(13,17,23,.97)', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', padding:'0 clamp(14px,3vw,32px)', gap:16, position:'sticky', top:0, zIndex:100, backdropFilter:'blur(12px)', animation:'slideDown .4s ease' }}>
+        <Link to="/" style={{ display:'flex', alignItems:'center', gap:8, fontWeight:800, fontSize:15, color:'var(--text)', textDecoration:'none', flexShrink:0 }}>
+          <div style={{ width:28, height:28, background:'linear-gradient(135deg,#2f81f7,#bc8cff)', borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, color:'#fff', fontWeight:900 }}>⊞</div>
           Built On It
         </Link>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
-          <Link to="/" style={{ color: 'var(--text2)', fontSize: 13, textDecoration: 'none' }} onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text2)'}>← Back to Home</Link>
-          <Link to="/profile"><div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#2f81f7,#bc8cff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: '#fff', border: '2px solid var(--border2)' }}>MS</div></Link>
+        <div style={{ marginLeft:'auto', display:'flex', gap:12, alignItems:'center' }}>
+          <Link to="/" style={{ color:'var(--text2)', fontSize:13, textDecoration:'none', fontWeight:500 }}
+            onMouseEnter={e => e.currentTarget.style.color='var(--text)'}
+            onMouseLeave={e => e.currentTarget.style.color='var(--text2)'}>← Home</Link>
+          <NavUser />
         </div>
       </nav>
 

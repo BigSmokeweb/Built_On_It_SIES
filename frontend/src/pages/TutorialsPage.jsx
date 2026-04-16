@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import NavUser from '../components/NavUser';
 
 const CATEGORIES = ['Web Development', 'AI / ML', 'DevOps', 'Mobile', 'Security', 'Data Science', 'Systems', 'Other'];
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
@@ -92,7 +93,7 @@ export default function Tutorials() {
               <span>+</span> Upload Tutorial
             </button>
             <button className="btn-icon">🔔</button>
-            <div className="avatar-placeholder">MS</div>
+            <NavUser />
             <button onClick={() => setNavOpen(false)} title="Hide navigation"
               style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, transition: 'all .18s', fontSize: 14 }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg4)'; e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.boxShadow = '0 0 0 2px rgba(47,129,247,.3)'; }}
@@ -370,42 +371,46 @@ export default function Tutorials() {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 18, marginBottom: 48 }}>
             {filtered.map((t, i) => (
-              <div key={t.id} className="card" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', animation: `fadeIn .4s ease ${i * 0.08}s both` }}>
-                {/* Thumbnail */}
-                <div style={{ height: 140, position: 'relative', overflow: 'hidden' }}>
-                  <img src={t.thumb} alt={t.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .3s' }}
-                    onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
-                    onMouseLeave={e => e.target.style.transform = 'scale(1)'} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.75))' }} />
-                  {/* Type badge */}
-                  <span style={{ position: 'absolute', top: 10, left: 10, padding: '3px 9px', borderRadius: 6, background: (typeColors[t.type] || '#2f81f7') + 'cc', color: '#fff', fontSize: 11, fontWeight: 600, backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {TYPES.find(x => x.id === t.type)?.icon} {TYPES.find(x => x.id === t.type)?.label}
-                  </span>
-                  {/* Level badge */}
-                  <span style={{ position: 'absolute', top: 10, right: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(0,0,0,.6)', color: levelColors[t.level] || '#fff', fontSize: 10, fontWeight: 600, backdropFilter: 'blur(4px)' }}>{t.level}</span>
-                  {/* Duration */}
-                  <span style={{ position: 'absolute', bottom: 8, right: 10, fontSize: 11, color: 'rgba(255,255,255,.85)', fontWeight: 500 }}>⏱ {t.duration}</span>
-                </div>
+              <Link key={t.id} to={`/tutorial/${t.id}`} style={{ textDecoration:'none', display:'block', animation: `fadeIn .4s ease ${i * 0.08}s both` }}>
+                <div className="card" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', transition:'transform .18s, box-shadow .18s' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 8px 32px rgba(0,0,0,.35)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=''; }}>
+                  {/* Thumbnail */}
+                  <div style={{ height: 140, position: 'relative', overflow: 'hidden' }}>
+                    <img src={t.thumb} alt={t.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .3s' }}
+                      onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
+                      onMouseLeave={e => e.target.style.transform = 'scale(1)'} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.75))' }} />
+                    {/* Type badge */}
+                    <span style={{ position: 'absolute', top: 10, left: 10, padding: '3px 9px', borderRadius: 6, background: (typeColors[t.type] || '#2f81f7') + 'cc', color: '#fff', fontSize: 11, fontWeight: 600, backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                      {TYPES.find(x => x.id === t.type)?.icon} {TYPES.find(x => x.id === t.type)?.label}
+                    </span>
+                    {/* Level badge */}
+                    <span style={{ position: 'absolute', top: 10, right: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(0,0,0,.6)', color: levelColors[t.level] || '#fff', fontSize: 10, fontWeight: 600, backdropFilter: 'blur(4px)' }}>{t.level}</span>
+                    {/* Duration */}
+                    <span style={{ position: 'absolute', bottom: 8, right: 10, fontSize: 11, color: 'rgba(255,255,255,.85)', fontWeight: 500 }}>⏱ {t.duration}</span>
+                  </div>
 
-                <div style={{ padding: '14px 16px' }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6, lineHeight: 1.3, color: 'var(--text)' }}>{t.title}</div>
-                  <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
-                    {t.tags.map(tag => <span key={tag} className={`tag ${tagColors[tag] || 'tag-gray'}`}>{tag}</span>)}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--text2)' }}>
-                      <div style={{ width: 22, height: 22, borderRadius: '50%', background: t.avatarColor + '33', border: `1px solid ${t.avatarColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: t.avatarColor }}>{t.avatar}</div>
-                      {t.author}
+                  <div style={{ padding: '14px 16px' }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6, lineHeight: 1.3, color: 'var(--text)' }}>{t.title}</div>
+                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
+                      {t.tags.map(tag => <span key={tag} className={`tag ${tagColors[tag] || 'tag-gray'}`}>{tag}</span>)}
                     </div>
-                    <div style={{ display: 'flex', gap: 10, fontSize: 11, color: 'var(--text3)' }}>
-                      <span>👁 {t.views}</span>
-                      <button onClick={() => toggleLike(t.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: likedIds.includes(t.id) ? '#f85149' : 'var(--text3)', padding: 0, display: 'flex', alignItems: 'center', gap: 2, transition: 'color .15s' }}>
-                        {likedIds.includes(t.id) ? '❤' : '♡'} {t.likes + (likedIds.includes(t.id) ? 1 : 0)}
-                      </button>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--text2)' }}>
+                        <div style={{ width: 22, height: 22, borderRadius: '50%', background: t.avatarColor + '33', border: `1px solid ${t.avatarColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: t.avatarColor }}>{t.avatar}</div>
+                        {t.author}
+                      </div>
+                      <div style={{ display: 'flex', gap: 10, fontSize: 11, color: 'var(--text3)' }}>
+                        <span>👁 {t.views}</span>
+                        <button onClick={e => { e.preventDefault(); e.stopPropagation(); toggleLike(t.id); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: likedIds.includes(t.id) ? '#f85149' : 'var(--text3)', padding: 0, display: 'flex', alignItems: 'center', gap: 2, transition: 'color .15s' }}>
+                          {likedIds.includes(t.id) ? '❤' : '♡'} {t.likes + (likedIds.includes(t.id) ? 1 : 0)}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
 
             {/* Upload CTA card */}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import NavUser from '../components/NavUser';
 
 /* ─── BRAND ─────────────────────────────────────────────────── */
 const BRAND = 'Built On It';
@@ -21,7 +22,7 @@ const features = [
   { icon: '📚', label: 'Tutorials', desc: 'Learn from expert-crafted guides', to: '/tutorials', color: '#bc8cff', bg: 'rgba(188,140,255,.1)' },
   { icon: '⚡', label: 'Build Together', desc: 'Collaborate with developers', to: '/collab', color: '#e3b341', bg: 'rgba(227,179,65,.1)' },
   { icon: '🆘', label: 'AskDev', desc: 'Get answers from the community', to: '/community', color: '#f85149', bg: 'rgba(248,81,73,.1)' },
-  { icon: '👤', label: 'Your Profile', desc: 'Showcase your work & projects', to: '/profile', color: '#00bcd4', bg: 'rgba(0,188,212,.1)' },
+  { icon: '🚀', label: 'Sign Up Free', desc: 'Create your profile & showcase work', to: '/login', color: '#00bcd4', bg: 'rgba(0,188,212,.1)' },
 ];
 
 /* ─── STATS ──────────────────────────────────────────────────── */
@@ -34,17 +35,17 @@ const stats = [
 
 /* ─── FEATURED PROJECTS ─────────────────────────────────────── */
 const featured = [
-  { title: 'AuthEngine Pro', badge: 'ENTERPRISE', desc: 'High-performance authentication middleware with JWT, OAuth2 & session management.', stars: '1.2k', lang: 'TypeScript', time: '2h ago', color: '#2f81f7', emoji: '🔐' },
-  { title: 'DataViz SDK', badge: 'ANALYTICS', desc: 'Real-time charting library designed for massive datasets with WebGL rendering.', stars: '850', lang: 'React', time: '5h ago', color: '#3fb950', emoji: '📊' },
-  { title: 'CloudStream API', badge: 'NETWORKING', desc: 'Ultra-low latency data streaming engine with built-in auto-scaling.', stars: '2.1k', lang: 'Go', time: '12h ago', color: '#bc8cff', emoji: '☁️' },
+  { id: 'p1', title: 'AuthEngine Pro', badge: 'FRAMEWORK', desc: 'High-performance authentication middleware with JWT, OAuth2 & session management.', stars: '4.2k', lang: 'TypeScript', time: '2h ago', color: '#2f81f7', emoji: '🔐' },
+  { id: 'p3', title: 'NeuralNexus AI', badge: 'AI / ML', desc: 'A comprehensive Python library for deploying neural network models at the edge with minimal dependencies.', stars: '54k', lang: 'Python', time: '5h ago', color: '#3fb950', emoji: '🧠' },
+  { id: 'p5', title: 'GoScale API', badge: 'BACKEND', desc: 'The ultimate framework for building highly scalable microservices with built-in Prometheus metrics.', stars: '19.3k', lang: 'Go', time: '12h ago', color: '#bc8cff', emoji: '🚀' },
 ];
 
 /* ─── NEW ARRIVALS ──────────────────────────────────────────── */
 const arrivals = [
-  { icon: '🛡', title: 'Shield.js', desc: 'Runtime security layer', color: '#2f81f7' },
-  { icon: '📦', title: 'SwiftStore', desc: 'KV storage engine', color: '#3fb950' },
-  { icon: '🔗', title: 'MockFlow', desc: 'API prototyping tool', color: '#bc8cff' },
-  { icon: '📊', title: 'Metrics.io', desc: 'Distributed tracing', color: '#e3b341' },
+  { icon: '🛡', title: 'Shield.js', desc: 'Runtime security layer', color: '#2f81f7', to: '/project/p14' },
+  { icon: '📦', title: 'SwiftStore', desc: 'KV storage engine', color: '#3fb950', to: '/explore' },
+  { icon: '🔗', title: 'MockFlow', desc: 'API prototyping tool', color: '#bc8cff', to: '/explore' },
+  { icon: '📊', title: 'Metrics.io', desc: 'Distributed tracing', color: '#e3b341', to: '/explore' },
 ];
 
 /* ─── FOOTER COLS ───────────────────────────────────────────── */
@@ -145,11 +146,7 @@ export default function Dashboard() {
               onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
               onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}
               className="resp-hide-480">FAQ</Link>
-            <Link to="/profile" style={{ textDecoration: 'none' }}>
-              <div className="avatar-placeholder" style={{ cursor: 'pointer', transition: 'box-shadow .2s, transform .2s', background: 'linear-gradient(135deg,#2f81f7,#bc8cff)' }}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 0 2px #2f81f7'; e.currentTarget.style.transform = 'scale(1.08)'; }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'scale(1)'; }}>MS</div>
-            </Link>
+            <NavUser />
           </div>
           <button onClick={() => setNavOpen(false)} title="Hide navigation"
             style={{ marginLeft: 4, width: 28, height: 28, borderRadius: '50%', background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text2)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, transition: 'all .18s', fontSize: 14 }}
@@ -198,7 +195,7 @@ export default function Dashboard() {
                 onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
                 ❓ FAQ
               </Link>
-              <Link to="/profile" style={{ textDecoration: 'none' }}>
+              <Link to="/login" style={{ textDecoration: 'none' }}>
                 <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>
                   ⬡ Sign In
                 </button>
@@ -240,7 +237,7 @@ export default function Dashboard() {
           ))}
           <div style={{ flex: 1 }} />
           <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <Link to="/profile" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
+            <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
               <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>
                 ⬡ Sign In
               </button>
@@ -340,7 +337,7 @@ export default function Dashboard() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {featured.map((p, i) => (
-                <Link key={p.title} to="/explore" style={{ textDecoration: 'none' }}>
+                <Link key={p.id} to={`/project/${p.id}`} style={{ textDecoration: 'none' }}>
                   <div className="card" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', animation: `fadeIn .4s ease ${i * 0.1 + 0.3}s both` }}>
                     <div style={{ height: 90, background: `linear-gradient(135deg, ${p.color}22, ${p.color}44)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                       <div style={{ width: 44, height: 44, background: p.color + '33', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, border: `1px solid ${p.color}44` }}>{p.emoji}</div>
@@ -372,13 +369,15 @@ export default function Dashboard() {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 10 }}>
                   {arrivals.map((a, i) => (
-                    <div key={a.title} className="card" style={{ padding: '14px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, animation: `fadeIn .4s ease ${i * 0.08 + 0.5}s both` }}>
-                      <div style={{ width: 32, height: 32, background: a.color + '22', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{a.icon}</div>
-                      <div>
-                        <div style={{ fontWeight: 600, fontSize: 13 }}>{a.title}</div>
-                        <div style={{ color: 'var(--text3)', fontSize: 11 }}>{a.desc}</div>
+                    <Link key={a.title} to={a.to} style={{ textDecoration: 'none' }}>
+                      <div className="card" style={{ padding: '14px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, animation: `fadeIn .4s ease ${i * 0.08 + 0.5}s both` }}>
+                        <div style={{ width: 32, height: 32, background: a.color + '22', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{a.icon}</div>
+                        <div>
+                          <div style={{ fontWeight: 600, fontSize: 13 }}>{a.title}</div>
+                          <div style={{ color: 'var(--text3)', fontSize: 11 }}>{a.desc}</div>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -407,8 +406,10 @@ export default function Dashboard() {
                   {BRAND}
                 </div>
                 <p style={{ color: 'var(--text2)', fontSize: 12, lineHeight: 1.7, marginBottom: 14 }}>The definitive platform for developers to discover, build, and share sophisticated projects and architectural components.</p>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  {['🌐', '📧', '💬'].map(ic => <button key={ic} className="btn-icon" style={{ fontSize: 14 }}>{ic}</button>)}
+                <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+                  <Link to="/community" className="btn-icon" style={{ fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🌐</Link>
+                  <Link to="/contact" className="btn-icon" style={{ fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>📧</Link>
+                  <Link to="/community" className="btn-icon" style={{ fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>💬</Link>
                 </div>
               </div>
               {footerCols.map(col => (

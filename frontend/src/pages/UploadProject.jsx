@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createProblem } from '../api';
+import NavUser from '../components/NavUser';
 
 const STEPS = ['Describe Problem', 'Add Details', 'Review & Publish'];
 
@@ -61,7 +62,7 @@ export default function SubmitProblem() {
         </Link>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8, flexShrink: 0 }}>
           <button className="btn-icon">🔔</button>
-          <div className="avatar-placeholder" style={{ background: 'linear-gradient(135deg,#f97316,#d29922)' }}>A</div>
+          <NavUser />
         </div>
       </nav>
 
