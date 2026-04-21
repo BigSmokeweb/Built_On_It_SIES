@@ -459,8 +459,8 @@ export default function Explore() {
 
   const activeFilterCount = Object.values(checkedFilters).flat().length;
 
-  // Combine mock data with real data (show real if available, else mock)
-  const displayProjects = dbProblems.length > 0 ? dbProblems : allProjects;
+  // Always show mock projects + any real DB submissions combined
+  const displayProjects = [...dbProblems, ...allProjects];
 
   const sorted = useMemo(() => {
     let list = [...displayProjects];
