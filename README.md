@@ -3,10 +3,9 @@
 A modern open-source platform for developers to discover, share, and collaborate on projects — all in one hub.
 
 ## 🌐 Live Demo
-Backend:[https://built-on-it-sies.onrender.com](https://built-on-it-sies.onrender.com)
+Frontend: [https://built-on-it-sies-1.onrender.com](https://built-on-it-sies-1.onrender.com)
 
-Frontend:[https://built-on-it-sies-1.onrender.com](https://built-on-it-sies-1.onrender.com)
-
+Backend: [https://built-on-it-sies.onrender.com](https://built-on-it-sies.onrender.com)
 
 ## ✨ Features
 
