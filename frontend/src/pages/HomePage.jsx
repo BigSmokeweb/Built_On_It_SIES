@@ -76,7 +76,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     setVisible(true);
-    // On desktop, default sidebar open
     if (window.innerWidth > 768) setSidebarOpen(true);
     const t = setInterval(() => {
       setTypedLines(p => { if (p >= codeLines.length) { clearInterval(t); return p; } return p + 1; });
@@ -84,7 +83,6 @@ export default function Dashboard() {
     return () => clearInterval(t);
   }, []);
 
-  // Close mobile sidebar on resize to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -97,8 +95,6 @@ export default function Dashboard() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const isMobile = () => window.innerWidth <= 768;
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
@@ -120,13 +116,7 @@ export default function Dashboard() {
           backdropFilter: 'blur(12px)', transition: 'height .35s cubic-bezier(.4,0,.2,1), padding .35s',
           animation: 'slideDown .4s ease',
         }}>
-          {/* Hamburger — mobile only */}
-          <button
-            className="hamburger-btn"
-            onClick={() => setMobileSidebarOpen(o => !o)}
-            title="Toggle menu"
-          >☰</button>
-
+          <button className="hamburger-btn" onClick={() => setMobileSidebarOpen(o => !o)} title="Toggle menu">☰</button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 15, color: 'var(--text)', whiteSpace: 'nowrap', flexShrink: 0 }}>
             <div style={{ width: 28, height: 28, background: 'linear-gradient(135deg,#2f81f7,#bc8cff)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#fff', fontWeight: 900 }}>⊞</div>
             {BRAND}
@@ -163,7 +153,6 @@ export default function Dashboard() {
       <div style={{ display: 'flex' }}>
         {/* ── SIDEBAR ─────────────────────────────────────────── */}
         <div style={{ position: 'relative', display: 'flex', flexShrink: 0 }}>
-          {/* Desktop sidebar */}
           <aside style={{
             width: sidebarOpen ? 220 : 0,
             minHeight: navOpen ? 'calc(100vh - 57px)' : '100vh',
@@ -171,9 +160,7 @@ export default function Dashboard() {
             padding: sidebarOpen ? '16px 0' : 0, display: 'flex', flexDirection: 'column',
             position: 'sticky', top: navOpen ? 57 : 0, height: navOpen ? 'calc(100vh - 57px)' : '100vh',
             overflow: 'hidden', transition: 'width .35s cubic-bezier(.4,0,.2,1), padding .35s, border .35s', flexShrink: 0,
-          }}
-            className="resp-desktop-sidebar"
-          >
+          }} className="resp-desktop-sidebar">
             <div style={{ padding: '0 12px', marginBottom: 8 }}>
               <input className="input" placeholder="Quick search..." style={{ height: 32, fontSize: 12 }} />
             </div>
@@ -187,25 +174,16 @@ export default function Dashboard() {
             <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <Link to="/about" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }}
                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
-                ℹ️ About {BRAND}
-              </Link>
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>ℹ️ About {BRAND}</Link>
               <Link to="/faq" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }}
                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>
-                ❓ FAQ
-              </Link>
+                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>❓ FAQ</Link>
               <Link to="/login" style={{ textDecoration: 'none' }}>
-                <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>
-                  ⬡ Sign In
-                </button>
+                <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
               </Link>
             </div>
           </aside>
-
-          {/* Desktop sidebar toggle */}
-          <div style={{ position: 'sticky', top: navOpen ? 57 : 0, alignSelf: 'flex-start', height: 0, transition: 'top .35s cubic-bezier(.4,0,.2,1)', zIndex: 50 }}
-            className="resp-desktop-sidebar">
+          <div style={{ position: 'sticky', top: navOpen ? 57 : 0, alignSelf: 'flex-start', height: 0, transition: 'top .35s cubic-bezier(.4,0,.2,1)', zIndex: 50 }} className="resp-desktop-sidebar">
             <button onClick={() => setSidebarOpen(o => !o)} title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
               style={{ position: 'absolute', left: 0, top: 20, width: 20, height: 52, background: 'var(--bg2)', border: '1px solid var(--border2)', borderLeft: 'none', borderRadius: '0 8px 8px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text2)', fontSize: 12, fontWeight: 700, transition: 'all .18s', boxShadow: '2px 0 8px rgba(0,0,0,.3)' }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg3)'; e.currentTarget.style.color = 'var(--text)'; }}
@@ -215,7 +193,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Mobile sidebar (slide-over) */}
+        {/* Mobile sidebar */}
         <aside style={{
           position: 'fixed', left: mobileSidebarOpen ? 0 : '-260px', top: 57, width: 240,
           height: 'calc(100vh - 57px)', background: 'var(--bg)', borderRight: '1px solid var(--border)',
@@ -229,8 +207,7 @@ export default function Dashboard() {
           </div>
           {sidebarItems.map((item, i) => (
             <Link key={item.label} to={item.to} className={`sidebar-item ${item.active ? 'active' : ''}`}
-              style={{ textDecoration: 'none' }}
-              onClick={() => setMobileSidebarOpen(false)}>
+              style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
               <span style={{ fontSize: 15 }}>{item.icon}</span>
               {item.label}
             </Link>
@@ -238,15 +215,14 @@ export default function Dashboard() {
           <div style={{ flex: 1 }} />
           <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
             <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
-              <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>
-                ⬡ Sign In
-              </button>
+              <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
             </Link>
           </div>
         </aside>
 
         {/* ── MAIN ──────────────────────────────────────────────── */}
         <main style={{ flex: 1, minWidth: 0 }}>
+
 
           {/* HERO */}
           <section style={{ padding: 'clamp(32px,5vw,64px) clamp(16px,4vw,48px) clamp(28px,4vw,48px)', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', gap: 40, flexWrap: 'wrap' }}>
@@ -437,7 +413,6 @@ export default function Dashboard() {
         </main>
       </div>
 
-      {/* Hide desktop sidebar elements on mobile via style */}
       <style>{`
         @media(max-width:768px){
           .resp-desktop-sidebar{display:none!important}

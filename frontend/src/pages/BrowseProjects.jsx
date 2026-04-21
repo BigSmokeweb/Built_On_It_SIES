@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { fetchProblems } from '../api';
 import NavUser from '../components/NavUser';
+import Sidebar from '../components/Sidebar';
 
 const allProjects = [
   // ── Web ──────────────────────────────────────────────────────────────────────
@@ -389,6 +390,7 @@ export default function Explore() {
   const [openFilter, setOpenFilter] = useState('Languages');
   const [page, setPage] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [navSidebarOpen, setNavSidebarOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(true);
   const [checkedFilters, setCheckedFilters] = useState({});
   const [search, setSearch] = useState('');
@@ -486,6 +488,23 @@ export default function Explore() {
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+
+      {/* NAV SIDEBAR OVERLAY — button 2 */}
+      {navSidebarOpen && (
+        <div onClick={() => setNavSidebarOpen(false)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.55)', zIndex: 198, backdropFilter: 'blur(2px)' }} />
+      )}
+      <aside style={{
+        position: 'fixed', left: navSidebarOpen ? 0 : '-260px', top: 0, width: 220,
+        height: '100vh', background: 'var(--bg)', borderRight: '1px solid var(--border)',
+        display: 'flex', flexDirection: 'column',
+        transition: 'left .3s cubic-bezier(.4,0,.2,1)', zIndex: 199,
+        boxShadow: navSidebarOpen ? '4px 0 24px rgba(0,0,0,.5)' : 'none',
+        overflow: 'hidden auto', padding: '16px 0',
+      }}>
+        <Sidebar open={true} mobileOpen={false} onMobileClose={() => {}} />
+      </aside>
+
       {/* TOP NAV WRAPPER */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
         <nav style={{
@@ -583,13 +602,20 @@ export default function Explore() {
             </div>
           </aside>
 
-          {/* Sidebar toggle tab */}
+          {/* BUTTON 1: Filter sidebar toggle */}
           <div style={{ position:'sticky', top: navOpen ? 57 : 0, alignSelf:'flex-start', height:0, transition:'top .35s cubic-bezier(.4,0,.2,1)', zIndex:50 }}>
-            <button onClick={() => setSidebarOpen(o => !o)} title={sidebarOpen ? 'Collapse filters' : 'Expand filters'}
+            <button onClick={() => setSidebarOpen(o => !o)} title={sidebarOpen ? 'Collapse filters (1)' : 'Expand filters (1)'}
               style={{ position:'absolute', left:0, top:20, width:20, height:52, background:'var(--bg2)', border:'1px solid var(--border2)', borderLeft:'none', borderRadius:'0 8px 8px 0', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'var(--text2)', fontSize:12, fontWeight:700, transition:'all .18s', boxShadow:'2px 0 8px rgba(0,0,0,.3)' }}
               onMouseEnter={e => { e.currentTarget.style.background='var(--bg3)'; e.currentTarget.style.color='var(--text)'; e.currentTarget.style.boxShadow='2px 0 12px rgba(47,129,247,.25)'; }}
               onMouseLeave={e => { e.currentTarget.style.background='var(--bg2)'; e.currentTarget.style.color='var(--text2)'; e.currentTarget.style.boxShadow='2px 0 8px rgba(0,0,0,.3)'; }}>
               {sidebarOpen ? '‹' : '›'}
+            </button>
+            {/* BUTTON 2: Nav sidebar toggle */}
+            <button onClick={() => setNavSidebarOpen(o => !o)} title="Navigation sidebar (2)"
+              style={{ position:'absolute', left:0, top:80, width:20, height:52, background: navSidebarOpen ? 'var(--blue)' : 'var(--bg2)', border:'1px solid var(--border2)', borderLeft:'none', borderRadius:'0 8px 8px 0', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color: navSidebarOpen ? '#fff' : 'var(--text2)', fontSize:11, fontWeight:700, transition:'all .18s', boxShadow:'2px 0 8px rgba(0,0,0,.3)' }}
+              onMouseEnter={e => { e.currentTarget.style.background='var(--blue)'; e.currentTarget.style.color='#fff'; }}
+              onMouseLeave={e => { e.currentTarget.style.background= navSidebarOpen ? 'var(--blue)' : 'var(--bg2)'; e.currentTarget.style.color= navSidebarOpen ? '#fff' : 'var(--text2)'; }}>
+              ⊞
             </button>
           </div>
         </div>

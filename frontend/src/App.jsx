@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/global.css';
+import Layout from './components/Layout';
 import Dashboard from './pages/HomePage';
 import Explore from './pages/BrowseProjects';
 import Categories from './pages/ProjectCategories';
@@ -22,7 +23,6 @@ const SESSION_VERSION = '2';
 
 /* ── Auth guard: redirect to /login if no valid session ── */
 function RootRedirect() {
-  // Clear any session that was set before our versioned auth system
   if (localStorage.getItem('boi_session_v') !== SESSION_VERSION) {
     localStorage.removeItem('boi_user');
     localStorage.removeItem('boi_guest');
@@ -38,19 +38,19 @@ export default function App() {
       <Routes>
         <Route path="/" element={<RootRedirect />} />
         <Route path="/explore" element={<Explore />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/project/:id" element={<ProjectDetail />} />
-        <Route path="/submit" element={<SubmitProblem />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/tutorials" element={<Tutorials />} />
-        <Route path="/tutorial/:id" element={<TutorialDetail />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/collab" element={<Collab />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
+        <Route path="/categories" element={<Layout><Categories /></Layout>} />
+        <Route path="/project/:id" element={<Layout><ProjectDetail /></Layout>} />
+        <Route path="/submit" element={<Layout><SubmitProblem /></Layout>} />
+        <Route path="/profile" element={<Layout><Profile /></Layout>} />
+        <Route path="/tutorials" element={<Layout><Tutorials /></Layout>} />
+        <Route path="/tutorial/:id" element={<Layout><TutorialDetail /></Layout>} />
+        <Route path="/community" element={<Layout><Community /></Layout>} />
+        <Route path="/collab" element={<Layout><Collab /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/faq" element={<Layout><FAQ /></Layout>} />
+        <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
+        <Route path="/terms" element={<Layout><Terms /></Layout>} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
