@@ -3,7 +3,10 @@
 A modern open-source platform for developers to discover, share, and collaborate on projects — all in one hub.
 
 ## 🌐 Live Demo
-[built-on-it-sies.vercel.app](https://built-on-it-sies.vercel.app)
+Backend:[https://built-on-it-sies.onrender.com](https://built-on-it-sies.onrender.com)
+
+Frontend:[https://built-on-it-sies-1.onrender.com](https://built-on-it-sies-1.onrender.com)
+
 
 ## ✨ Features
 
