@@ -46,7 +46,8 @@ export default function SubmitProblem() {
       navigate('/explore');
     } catch (err) {
       console.error(err);
-      alert('Failed to publish problem. Check console.');
+      const msg = err?.response?.data?.error || err?.message || 'Unknown error';
+      alert(`Failed to publish problem: ${msg}`);
     } finally {
       setLoading(false);
     }
