@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { fetchProblems } from '../api';
+import { fetchProblems } from '../api.js';
 import NavUser from '../components/NavUser';
-import Sidebar from '../components/Sidebar';
+import { SidebarContent } from '../components/Sidebar';
 
 const allProjects = [
   // ── Web ──────────────────────────────────────────────────────────────────────
@@ -502,7 +502,7 @@ export default function Explore() {
         boxShadow: navSidebarOpen ? '4px 0 24px rgba(0,0,0,.5)' : 'none',
         overflow: 'hidden auto', padding: '16px 0',
       }}>
-        <Sidebar open={true} mobileOpen={false} onMobileClose={() => {}} />
+        <SidebarContent onClick={() => setNavSidebarOpen(false)} />
       </aside>
 
       {/* TOP NAV WRAPPER */}

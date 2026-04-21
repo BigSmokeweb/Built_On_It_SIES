@@ -27,17 +27,20 @@ const features = [
 
 /* ─── STATS ──────────────────────────────────────────────────── */
 const stats = [
-  { n: '12,400+', l: 'Developers' },
-  { n: '3,800+', l: 'Projects' },
-  { n: '96', l: 'Countries' },
-  { n: '4.9★', l: 'Community Rating' },
+  { n: '12,400+', l: 'Developers', icon: '👥', color: '#2f81f7' },
+  { n: '3,800+', l: 'Projects', icon: '📁', color: '#3fb950' },
+  { n: '96', l: 'Countries', icon: '🌍', color: '#bc8cff' },
+  { n: '4.9★', l: 'Community Rating', icon: '⭐', color: '#e3b341' },
 ];
 
 /* ─── FEATURED PROJECTS ─────────────────────────────────────── */
 const featured = [
-  { id: 'p1', title: 'AuthEngine Pro', badge: 'FRAMEWORK', desc: 'High-performance authentication middleware with JWT, OAuth2 & session management.', stars: '4.2k', lang: 'TypeScript', time: '2h ago', color: '#2f81f7', emoji: '🔐' },
-  { id: 'p3', title: 'NeuralNexus AI', badge: 'AI / ML', desc: 'A comprehensive Python library for deploying neural network models at the edge with minimal dependencies.', stars: '54k', lang: 'Python', time: '5h ago', color: '#3fb950', emoji: '🧠' },
-  { id: 'p5', title: 'GoScale API', badge: 'BACKEND', desc: 'The ultimate framework for building highly scalable microservices with built-in Prometheus metrics.', stars: '19.3k', lang: 'Go', time: '12h ago', color: '#bc8cff', emoji: '🚀' },
+  { id: 'p1', title: 'AuthEngine Pro',   badge: 'FRAMEWORK', desc: 'High-performance authentication middleware with JWT, OAuth2 & session management.',           stars: '4.2k',  lang: 'TypeScript', time: '2h ago',  color: '#2f81f7', emoji: '🔐' },
+  { id: 'p3', title: 'NeuralNexus AI',   badge: 'AI / ML',   desc: 'Python library for deploying neural network models at the edge with minimal dependencies.',    stars: '54k',   lang: 'Python',     time: '5h ago',  color: '#3fb950', emoji: '🧠' },
+  { id: 'p5', title: 'GoScale API',      badge: 'BACKEND',   desc: 'Framework for building highly scalable microservices with built-in Prometheus metrics.',        stars: '19.3k', lang: 'Go',         time: '12h ago', color: '#bc8cff', emoji: '🚀' },
+  { id: 'p6', title: 'ReactFlow UI',     badge: 'FRONTEND',  desc: 'Drag-and-drop node editor for React with custom node types and smooth animations.',            stars: '8.1k',  lang: 'React',      time: '1d ago',  color: '#00bcd4', emoji: '🎨' },
+  { id: 'p7', title: 'DockerKit CLI',    badge: 'DEVOPS',    desc: 'Simplified Docker management CLI with one-command deployments and built-in health checks.',     stars: '11.2k', lang: 'Shell',      time: '2d ago',  color: '#e3b341', emoji: '🐳' },
+  { id: 'p8', title: 'CryptoVault SDK',  badge: 'SECURITY',  desc: 'End-to-end encryption SDK supporting AES-256, RSA and elliptic curve cryptography.',          stars: '6.7k',  lang: 'Rust',       time: '3d ago',  color: '#f85149', emoji: '🔒' },
 ];
 
 /* ─── NEW ARRIVALS ──────────────────────────────────────────── */
@@ -73,6 +76,7 @@ export default function Dashboard() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(true);
   const [typedLines, setTypedLines] = useState(0);
+  const storedUser = JSON.parse(localStorage.getItem('boi_user') || 'null');
 
   useEffect(() => {
     setVisible(true);
@@ -178,9 +182,15 @@ export default function Dashboard() {
               <Link to="/faq" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }}
                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = 'var(--text2)'; e.currentTarget.style.background = 'none'; }}>❓ FAQ</Link>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
-                <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
-              </Link>
+              {storedUser ? (
+                <Link to="/profile" style={{ textDecoration: 'none' }}>
+                  <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>👤 View Profile</button>
+                </Link>
+              ) : (
+                <Link to="/login" style={{ textDecoration: 'none' }}>
+                  <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
+                </Link>
+              )}
             </div>
           </aside>
           <div style={{ position: 'sticky', top: navOpen ? 57 : 0, alignSelf: 'flex-start', height: 0, transition: 'top .35s cubic-bezier(.4,0,.2,1)', zIndex: 50 }} className="resp-desktop-sidebar">
@@ -214,9 +224,15 @@ export default function Dashboard() {
           ))}
           <div style={{ flex: 1 }} />
           <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
-              <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
-            </Link>
+            {storedUser ? (
+              <Link to="/profile" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
+                <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>👤 View Profile</button>
+              </Link>
+            ) : (
+              <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setMobileSidebarOpen(false)}>
+                <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
+              </Link>
+            )}
           </div>
         </aside>
 
@@ -244,11 +260,14 @@ export default function Dashboard() {
                 <Link to="/explore" className="btn btn-primary btn-lg">Explore Projects →</Link>
                 <Link to="/categories" className="btn btn-outline btn-lg">Browse Categories</Link>
               </div>
-              <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 8 }}>
                 {stats.map(s => (
-                  <div key={s.l}>
-                    <div style={{ fontWeight: 800, fontSize: '1.15rem', color: 'var(--text)' }}>{s.n}</div>
-                    <div style={{ color: 'var(--text3)', fontSize: 11, letterSpacing: 0.5 }}>{s.l}</div>
+                  <div key={s.l} style={{ background: 'rgba(255,255,255,.04)', border: `1px solid ${s.color}33`, borderRadius: 12, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 10, backdropFilter: 'blur(8px)', minWidth: 110 }}>
+                    <span style={{ fontSize: 18 }}>{s.icon}</span>
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text)', lineHeight: 1.1 }}>{s.n}</div>
+                      <div style={{ color: 'var(--text3)', fontSize: 10, letterSpacing: 0.5, marginTop: 1 }}>{s.l}</div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -277,24 +296,23 @@ export default function Dashboard() {
             </div>
           </section>
 
-          {/* FEATURES GRID */}
+          {/* FEATURES GRID - strict 3-column */}
           <section style={{ padding: '0 clamp(16px,4vw,48px) clamp(32px,5vw,56px)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
-              <div>
-                <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 4 }}>Everything you need</h2>
-                <p style={{ color: 'var(--text2)', fontSize: 13 }}>All the tools and features, built into one platform.</p>
-              </div>
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(47,129,247,.1)', border: '1px solid rgba(47,129,247,.2)', borderRadius: 20, padding: '4px 12px', fontSize: 11, color: '#58a6ff', fontWeight: 600, letterSpacing: 1, marginBottom: 10 }}>✦ PLATFORM FEATURES</div>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 6 }}>Everything you need</h2>
+              <p style={{ color: 'var(--text2)', fontSize: 13 }}>All the tools and features, built into one platform.</p>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 14 }}>
+            <div className="home-features-grid">
               {features.map((f, i) => (
-                <Link key={f.label} to={f.to} style={{ textDecoration: 'none', display: 'block', animation: `fadeIn .4s ease ${i * 0.07}s both` }}>
-                  <div className="card" style={{ padding: '20px 22px', cursor: 'pointer', display: 'flex', alignItems: 'flex-start', gap: 14, transition: 'all .2s' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = f.color + '66'; e.currentTarget.style.boxShadow = `0 8px 28px ${f.color}18`; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: f.bg, border: `1px solid ${f.color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{f.icon}</div>
+                <Link key={f.label} to={f.to} style={{ textDecoration: 'none', display: 'flex', animation: `fadeIn .4s ease ${i * 0.07}s both` }}>
+                  <div className="card" style={{ padding: '20px 22px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14, transition: 'all .25s', borderTop: `2px solid ${f.color}55`, width: '100%', flex: 1 }}
+                    onMouseEnter={e => { e.currentTarget.style.borderTopColor = f.color; e.currentTarget.style.boxShadow = `0 8px 32px ${f.color}25`; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderTopColor = f.color + '55'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = 'var(--border)'; }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 10, background: `linear-gradient(135deg, ${f.bg}, ${f.color}22)`, border: `1px solid ${f.color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>{f.icon}</div>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 13.5, marginBottom: 4, color: 'var(--text)' }}>{f.label}</div>
-                      <div style={{ color: 'var(--text2)', fontSize: 12 }}>{f.desc}</div>
+                      <div style={{ fontWeight: 700, fontSize: 13.5, marginBottom: 3, color: 'var(--text)' }}>{f.label}</div>
+                      <div style={{ color: 'var(--text2)', fontSize: 12, lineHeight: 1.4 }}>{f.desc}</div>
                     </div>
                   </div>
                 </Link>
@@ -302,29 +320,35 @@ export default function Dashboard() {
             </div>
           </section>
 
-          {/* FEATURED PROJECTS */}
+          {/* FEATURED PROJECTS - 3 cols, equal height cards */}
           <section style={{ padding: '0 clamp(16px,4vw,48px) clamp(32px,5vw,56px)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 10 }}>
               <div>
-                <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 4 }}>Featured Projects</h2>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(63,185,80,.1)', border: '1px solid rgba(63,185,80,.2)', borderRadius: 20, padding: '4px 12px', fontSize: 11, color: '#3fb950', fontWeight: 600, letterSpacing: 1, marginBottom: 10 }}>🔥 TRENDING NOW</div>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 4 }}>Featured Projects</h2>
                 <p style={{ color: 'var(--text2)', fontSize: 13 }}>The most popular and trending tools in our ecosystem.</p>
               </div>
-              <Link to="/explore" style={{ color: 'var(--blue)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>View all →</Link>
+              <Link to="/explore" style={{ color: 'var(--blue)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none', background: 'rgba(47,129,247,.08)', border: '1px solid rgba(47,129,247,.2)', padding: '6px 14px', borderRadius: 20, fontWeight: 600, transition: 'all .2s', marginTop: 38, flexShrink: 0 }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(47,129,247,.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(47,129,247,.08)'; }}>View all →</Link>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+            <div className="home-projects-grid">
               {featured.map((p, i) => (
-                <Link key={p.id} to={`/project/${p.id}`} style={{ textDecoration: 'none' }}>
-                  <div className="card" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', animation: `fadeIn .4s ease ${i * 0.1 + 0.3}s both` }}>
-                    <div style={{ height: 90, background: `linear-gradient(135deg, ${p.color}22, ${p.color}44)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                      <div style={{ width: 44, height: 44, background: p.color + '33', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, border: `1px solid ${p.color}44` }}>{p.emoji}</div>
-                      <span className="badge badge-blue" style={{ position: 'absolute', top: 10, right: 10, fontSize: 9 }}>{p.badge}</span>
+                <Link key={p.id} to={`/project/${p.id}`} style={{ textDecoration: 'none', display: 'flex' }}>
+                  <div className="card" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', animation: `fadeIn .4s ease ${i * 0.08 + 0.2}s both`, transition: 'all .25s', display: 'flex', flexDirection: 'column', width: '100%' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${p.color}30, 0 0 0 1px ${p.color}33`; e.currentTarget.style.borderColor = p.color + '55'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = 'var(--border)'; }}>
+                    <div style={{ height: 100, background: `linear-gradient(135deg, ${p.color}18, ${p.color}35, ${p.color}12)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
+                      <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at 30% 50%, ${p.color}20, transparent 70%)` }} />
+                      <div style={{ width: 48, height: 48, background: `linear-gradient(135deg, ${p.color}44, ${p.color}22)`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, border: `1px solid ${p.color}55`, boxShadow: `0 8px 20px ${p.color}33` }}>{p.emoji}</div>
+                      <span style={{ position: 'absolute', top: 10, right: 10, background: `${p.color}22`, color: p.color, border: `1px solid ${p.color}44`, borderRadius: 6, padding: '2px 7px', fontSize: 9, fontWeight: 700, letterSpacing: .5 }}>{p.badge}</span>
                     </div>
-                    <div style={{ padding: '14px 16px' }}>
+                    <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                       <div style={{ fontWeight: 700, fontSize: 13.5, marginBottom: 5, color: 'var(--text)' }}>{p.title}</div>
-                      <p style={{ color: 'var(--text2)', fontSize: 12, lineHeight: 1.55, marginBottom: 10 }}>{p.desc}</p>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 11.5, color: 'var(--text3)' }}>
+                      <p style={{ color: 'var(--text2)', fontSize: 12, lineHeight: 1.55, flex: 1 }}>{p.desc}</p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11.5, color: 'var(--text3)', paddingTop: 10, marginTop: 10, borderTop: '1px solid var(--border)' }}>
                         <span>⭐ {p.stars}</span>
-                        <span style={{ color: 'var(--blue)' }}>{p.lang}</span>
+                        <span style={{ background: p.color + '18', color: p.color, padding: '2px 8px', borderRadius: 10, fontSize: 10.5, fontWeight: 600 }}>{p.lang}</span>
                         <span style={{ marginLeft: 'auto' }}>🕐 {p.time}</span>
                       </div>
                     </div>
@@ -336,21 +360,27 @@ export default function Dashboard() {
 
           {/* NEW ARRIVALS + CTA STRIP */}
           <section style={{ padding: '0 clamp(16px,4vw,48px) clamp(32px,5vw,56px)' }}>
-            <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'stretch' }}>
+
               {/* New Arrivals */}
-              <div style={{ flex: '1 1 300px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                  <span style={{ fontSize: 16 }}>🚀</span>
-                  <h2 style={{ fontSize: '1.1rem', fontWeight: 700 }}>New Arrivals</h2>
+              <div style={{ flex: '1 1 340px' }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(0,188,212,.1)', border: '1px solid rgba(0,188,212,.2)', borderRadius: 20, padding: '4px 12px', fontSize: 11, color: '#00bcd4', fontWeight: 600, letterSpacing: 1, marginBottom: 10 }}>🚀 JUST SHIPPED</div>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>New Arrivals</h2>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 10 }}>
+                <div className="home-arrivals-grid">
                   {arrivals.map((a, i) => (
-                    <Link key={a.title} to={a.to} style={{ textDecoration: 'none' }}>
-                      <div className="card" style={{ padding: '14px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, animation: `fadeIn .4s ease ${i * 0.08 + 0.5}s both` }}>
-                        <div style={{ width: 32, height: 32, background: a.color + '22', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{a.icon}</div>
+                    <Link key={a.title} to={a.to} style={{ textDecoration: 'none', display: 'flex' }}>
+                      <div className="card" style={{ padding: '16px 18px', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 10, animation: `fadeIn .4s ease ${i * 0.08 + 0.5}s both`, transition: 'all .25s', borderTop: `2px solid ${a.color}55`, width: '100%' }}
+                        onMouseEnter={e => { e.currentTarget.style.borderTopColor = a.color; e.currentTarget.style.boxShadow = `0 8px 28px ${a.color}25`; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderTopColor = a.color + '55'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = 'var(--border)'; }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div style={{ width: 40, height: 40, background: `linear-gradient(135deg, ${a.color}30, ${a.color}15)`, border: `1px solid ${a.color}44`, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>{a.icon}</div>
+                          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 0.5, background: `${a.color}18`, color: a.color, border: `1px solid ${a.color}33`, borderRadius: 6, padding: '2px 7px' }}>NEW</span>
+                        </div>
                         <div>
-                          <div style={{ fontWeight: 600, fontSize: 13 }}>{a.title}</div>
-                          <div style={{ color: 'var(--text3)', fontSize: 11 }}>{a.desc}</div>
+                          <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--text)', marginBottom: 2 }}>{a.title}</div>
+                          <div style={{ color: 'var(--text3)', fontSize: 11.5, lineHeight: 1.4 }}>{a.desc}</div>
                         </div>
                       </div>
                     </Link>
@@ -359,17 +389,24 @@ export default function Dashboard() {
               </div>
 
               {/* CTA Card */}
-              <div style={{ flex: '1 1 260px', maxWidth: 340 }}>
-                <div style={{ background: 'linear-gradient(135deg, rgba(47,129,247,.08), rgba(188,140,255,.08))', border: '1px solid rgba(47,129,247,.2)', borderRadius: 14, padding: 'clamp(20px,3vw,28px) 24px', height: '100%', minHeight: 200, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12 }}>
-                  <div style={{ fontSize: 32 }}>🌐</div>
-                  <h3 style={{ fontWeight: 800, fontSize: '1.1rem', lineHeight: 1.3 }}>Join {stats[0].n} developers on {BRAND}</h3>
-                  <p style={{ color: 'var(--text2)', fontSize: 12.5, lineHeight: 1.7 }}>Share your projects, discover new tools, learn from tutorials, and collaborate with the global developer community.</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
-                    <Link to="/profile" className="btn btn-primary" style={{ justifyContent: 'center', fontSize: 13 }}>Get Started Free →</Link>
+              <div style={{ flex: '1 1 280px' }}>
+                <div style={{ background: 'linear-gradient(145deg, rgba(47,129,247,.13), rgba(188,140,255,.13), rgba(47,129,247,.06))', border: '1px solid rgba(47,129,247,.3)', borderRadius: 18, padding: 'clamp(24px,3vw,32px)', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16, position: 'relative', overflow: 'hidden', boxShadow: '0 0 80px rgba(47,129,247,.06) inset' }}>
+                  <div style={{ position: 'absolute', top: -60, right: -60, width: 200, height: 200, background: 'radial-gradient(circle, rgba(188,140,255,.18), transparent 70%)', pointerEvents: 'none' }} />
+                  <div style={{ position: 'absolute', bottom: -40, left: -40, width: 140, height: 140, background: 'radial-gradient(circle, rgba(47,129,247,.12), transparent 70%)', pointerEvents: 'none' }} />
+                  <div style={{ fontSize: 40, filter: 'drop-shadow(0 4px 12px rgba(47,129,247,.3))' }}>🌐</div>
+                  <div>
+                    <h3 style={{ fontWeight: 900, fontSize: '1.2rem', lineHeight: 1.3, background: 'linear-gradient(90deg,#58a6ff,#bc8cff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 8 }}>
+                      Join {stats[0].n} developers on {BRAND}
+                    </h3>
+                    <p style={{ color: 'var(--text2)', fontSize: 13, lineHeight: 1.7 }}>Share projects, discover tools, learn from tutorials, and collaborate with the global developer community.</p>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Link to="/profile" className="btn btn-primary" style={{ justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>Get Started Free →</Link>
                     <Link to="/about" className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 13 }}>Learn More</Link>
                   </div>
                 </div>
               </div>
+
             </div>
           </section>
 
@@ -414,13 +451,28 @@ export default function Dashboard() {
       </div>
 
       <style>{`
-        @media(max-width:768px){
-          .resp-desktop-sidebar{display:none!important}
-          .hero-code-panel{display:none!important}
-          .resp-hide-480{display:none}
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes slideDown { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+        @keyframes fadeInLeft { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:none} }
+
+        .home-features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+        .home-projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+        .home-arrivals-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+
+        @media(max-width:900px){
+          .home-features-grid { grid-template-columns:repeat(2,1fr); }
+          .home-projects-grid { grid-template-columns:repeat(2,1fr); }
         }
-        @media(max-width:480px){
-          .resp-hide-480{display:none!important}
+        @media(max-width:640px){
+          .home-features-grid { grid-template-columns:1fr; }
+          .home-projects-grid { grid-template-columns:1fr; }
+          .home-arrivals-grid { grid-template-columns:1fr; }
+        }
+        @media(max-width:768px){
+          .resp-desktop-sidebar { display:none!important; }
+          .hero-code-panel { display:none!important; }
         }
       `}</style>
     </div>

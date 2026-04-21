@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const sidebarItems = [
@@ -9,14 +10,30 @@ const sidebarItems = [
   { icon: '🆘', label: 'AskDev', to: '/community' },
 ];
 
-export default function Sidebar({ open, mobileOpen, onMobileClose }) {
+/* Reusable nav content — used by both Sidebar and BrowseProjects overlay */
+export function SidebarContent({ onClick }) {
   const loc = useLocation();
+  const [user, setUser] = useState(null);
+  const isGuest = !user && !!localStorage.getItem('boi_guest');
 
-  const NavLinks = ({ onClick }) => (
+  useEffect(() => {
+    const stored = localStorage.getItem('boi_user');
+    if (stored) setUser(JSON.parse(stored));
+  }, []);
+  return (
     <>
+      {/* Brand */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '0 16px 16px', fontWeight: 800, fontSize: 15, color: 'var(--text)', borderBottom: '1px solid var(--border)', marginBottom: 8 }}>
+        <div style={{ width: 28, height: 28, background: 'linear-gradient(135deg,#2f81f7,#bc8cff)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: '#fff', fontWeight: 900 }}>⊞</div>
+        Built On It
+      </div>
+
+      {/* Quick search */}
       <div style={{ padding: '0 12px', marginBottom: 8 }}>
         <input className="input" placeholder="Quick search..." style={{ height: 32, fontSize: 12 }} />
       </div>
+
+      {/* Nav links */}
       {sidebarItems.map((item, i) => {
         const isActive = loc.pathname === item.to;
         return (
@@ -32,7 +49,10 @@ export default function Sidebar({ open, mobileOpen, onMobileClose }) {
           </Link>
         );
       })}
+
       <div style={{ flex: 1 }} />
+
+      {/* Footer links */}
       <div style={{ padding: '12px', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8 }}>
         <Link to="/about" style={{ fontSize: 12, color: 'var(--text2)', textDecoration: 'none', padding: '5px 8px', borderRadius: 6, transition: 'all .15s', display: 'flex', alignItems: 'center', gap: 6 }}
           onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'var(--bg4)'; }}
@@ -46,10 +66,21 @@ export default function Sidebar({ open, mobileOpen, onMobileClose }) {
           onClick={onClick}>
           ❓ FAQ
         </Link>
+        {user ? (
+          <Link to="/profile" style={{ textDecoration: 'none' }} onClick={onClick}>
+            <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>👤 View Profile</button>
+          </Link>
+        ) : (
+          <Link to="/login" style={{ textDecoration: 'none' }} onClick={onClick}>
+            <button className="btn btn-primary" style={{ width: '100%', fontSize: 13, justifyContent: 'center' }}>⬡ Sign In</button>
+          </Link>
+        )}
       </div>
     </>
   );
+}
 
+export default function Sidebar({ open, mobileOpen, onMobileClose }) {
   return (
     <>
       {/* Desktop Sidebar */}
@@ -71,10 +102,10 @@ export default function Sidebar({ open, mobileOpen, onMobileClose }) {
           flexShrink: 0,
         }}
       >
-        <NavLinks />
+        <SidebarContent />
       </aside>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Sidebar Overlay backdrop */}
       {mobileOpen && (
         <div
           onClick={onMobileClose}
@@ -91,7 +122,7 @@ export default function Sidebar({ open, mobileOpen, onMobileClose }) {
         boxShadow: mobileOpen ? '4px 0 24px rgba(0,0,0,.5)' : 'none',
         overflow: 'hidden auto',
       }}>
-        <NavLinks onClick={onMobileClose} />
+        <SidebarContent onClick={onMobileClose} />
       </aside>
     </>
   );
