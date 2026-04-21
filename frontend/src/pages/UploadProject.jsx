@@ -45,8 +45,11 @@ export default function SubmitProblem() {
       });
       navigate('/explore');
     } catch (err) {
-      console.error(err);
-      const msg = err?.response?.data?.error || err?.message || 'Unknown error';
+      console.error('Full error:', err?.response?.data, err);
+      const msg = err?.response?.data?.error
+        || (typeof err?.response?.data === 'string' ? err.response.data : null)
+        || err?.message
+        || 'Unknown error';
       alert(`Failed to publish problem: ${msg}`);
     } finally {
       setLoading(false);
